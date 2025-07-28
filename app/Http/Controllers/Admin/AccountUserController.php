@@ -20,4 +20,24 @@ class AccountUserController extends Controller
 
         return view('admin.user.index', compact('users'));
     }
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+        ]);
+
+        $user->update($request->only(['name', 'email', 'phone']));
+
+        return redirect()->route('user.index')->with('success', 'Data berhasil diupdate.');
+    }
+    
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('user.index')->with('success', 'Data berhasil dihapus.');
+    }
+
 }

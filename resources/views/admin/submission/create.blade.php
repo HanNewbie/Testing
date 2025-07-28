@@ -1,0 +1,89 @@
+@extends('layouts.sidebar')
+
+@section('content')
+<main class="p-6 bg-gray-100 flex-1 min-h-screen">
+    <div class="max-w-3xl mx-auto bg-white rounded shadow p-6">
+        <h3 class="text-2xl font-semibold mb-6">Tambah Submission</h3>
+
+        @if ($errors->any())
+            <div class="bg-red-100 text-red-700 p-4 mb-4 rounded">
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('submission.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            {{-- Vendor --}}
+            <div class="mb-4">
+                <label for="vendor" class="block font-medium mb-1">Vendor</label>
+                <input type="text" name="vendor" id="vendor" class="w-full border px-4 py-2 rounded" value="{{ old('vendor') }}" required>
+            </div>
+
+            {{-- Nama Event --}}
+            <div class="mb-4">
+                <label for="name_event" class="block font-medium mb-1">Nama Event</label>
+                <input type="text" name="name_event" id="name_event" class="w-full border px-4 py-2 rounded" value="{{ old('name_event') }}" required>
+            </div>
+
+
+            {{-- Tanggal Mulai dan Selesai --}}
+            <div class="flex gap-4 mb-4">
+                <div class="w-1/2">
+                    <label for="start_date" class="block font-medium mb-1">Tanggal Mulai</label>
+                    <input type="date" name="start_date" id="start_date" class="w-full border px-4 py-2 rounded" value="{{ old('start_date') }}" required>
+                </div>
+                <div class="w-1/2">
+                    <label for="end_date" class="block font-medium mb-1">Tanggal Selesai</label>
+                    <input type="date" name="end_date" id="end_date" class="w-full border px-4 py-2 rounded" value="{{ old('end_date') }}" required>
+                </div>
+            </div>
+
+            {{-- File Upload --}}
+            <div class="mb-4">
+                <label for="file" class="block font-medium mb-1">File Proposal</label>
+                <input type="file" name="file" id="file" accept=".pdf" class="w-full border px-4 py-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label for="ktp" class="block font-medium mb-1">KTP</label>
+                <input type="file" name="ktp" id="ktp" accept=".pdf" class="w-full border px-4 py-2 rounded" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="appl_letter" class="block font-medium mb-1">Surat Pengajuan</label>
+                <input type="file" name="appl_letter" id="appl_letter" accept=".pdf" class="w-full border px-4 py-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label for="actv_letter" class="block font-medium mb-1">Surat Kegiatan</label>
+                <input type="file" name="actv_letter" id="actv_letter" accept=".pdf" class="w-full border px-4 py-2 rounded" >
+            </div>
+
+            <div class="flex justify-between mt-6">
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
+                    Simpan
+                </button>
+                <a href="{{ route('submission.index') }}" class="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded">
+                    Batal
+                </a>
+            </div>
+        </form>
+    </div>
+</main>
+
+@if(session('error'))
+<script>
+    Swal.fire({
+        title: "Gagal!",
+        text: "{{ session('error') }}",
+        icon: "error",
+        confirmButtonColor: "#d33"
+    });
+</script>
+@endif
+@endsection

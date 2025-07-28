@@ -50,14 +50,14 @@ class AccountController extends Controller
 
         // Simpan foto jika ada
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('public/profile'); // simpan ke storage/app/public/profile
+            $path = $request->file('photo')->store('assets/profile', 'public'); // simpan ke storage/app/public/profile
             $data['photo'] = Storage::url($path); // hasilnya: /storage/profile/namafile.jpg
         }
 
         // Simpan data admin ke database
         Admin::create($data);
 
-        return redirect()->route('account.index')->with('sukses', 'Data berhasil ditambahkan.');
+        return redirect()->route('account.index')->with('success', 'Data berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -98,7 +98,7 @@ class AccountController extends Controller
 
         $admin->update($data);
 
-        return redirect()->route('account.index')->with('sukses', 'Data berhasil diperbarui.');
+        return redirect()->route('account.index')->with('success', 'Data berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -109,7 +109,7 @@ class AccountController extends Controller
          }
         $admin->delete();
 
-        return redirect()->route('account.index')->with('sukses', 'Data admin berhasil dihapus.');
+        return redirect()->route('account.index')->with('success', 'Data admin berhasil dihapus.');
     }
 
 

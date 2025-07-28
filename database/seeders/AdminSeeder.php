@@ -18,8 +18,8 @@ class AdminSeeder extends Seeder
             'username' => 'admin',
             'password' => Hash::make('admin123'),
             'name' => 'Administrator',
-            'email' => '',
-            'phone' => '',
+            'email' => 'admin@blud.com',
+            'phone' => '08xxxxxxx',
             'photo' => '',
         ]);
     }

@@ -10,5 +10,4 @@
       </h1>
     </div>
   </div>
-  
 @endsection

@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 </head>
 <body class="bg-gray-100">
 <div class="flex flex-col min-h-screen">
@@ -14,7 +17,7 @@
     </div>
     <div class="flex items-center">
       <span class="mr-4 font-medium text-gray-700">{{ auth()->user()->username }}</span>
-      <img src="{{auth()->user()->photo }}" alt="Profile" class="h-10 w-10 rounded-full border border-gray-300">
+      <img src="{{ auth()->user()->photo }}" alt="Profile" class="h-10 w-10 rounded-full border border-gray-300">
     </div>
   </header>
 
@@ -66,9 +69,9 @@
           <img src="{{ asset('assets/img/dropdownimg.png') }}" class="w-4 h-4">
         </button>
         <ul id="dropdownEditFitur" class="ml-6 mt-1 text-sm bg-white shadow-md rounded-md {{ $isFiturActive ? '' : 'hidden' }}">
-          <li class="px-6 py-2 hover:bg-blue-100"><a href="#">Jadwal</a></li>
-          <li class="px-6 py-2 hover:bg-blue-100"><a href="#">Berita</a></li>
-          <li class="px-6 py-2 hover:bg-blue-100"><a href="#">Tempat Wisata</a></li>
+          <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('event.index') }}">Jadwal</a></li>
+          <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('news.index') }}">Berita</a></li>
+          <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('content.index') }}">Tempat Wisata</a></li>
         </ul>
       </li>
 
@@ -84,9 +87,9 @@
           <img src="{{ asset('assets/img/dropdownimg.png') }}" class="w-4 h-4">
         </button>
         <ul id="dropdownPengajuan" class="ml-6 mt-1 text-sm bg-white shadow-md rounded-md {{ $isPengajuanActive ? '' : 'hidden' }}">
-          <li class="px-6 py-2 hover:bg-blue-100"><a href="#">List Pengajuan</a></li>
-          <li class="px-6 py-2 hover:bg-blue-100"><a href="#">Approved</a></li>
-          <li class="px-6 py-2 hover:bg-blue-100"><a href="#">Rejected</a></li>
+          <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('submission.index') }}">List Pengajuan</a></li>
+          <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('submission.approved.list') }}">Approved</a></li>
+          <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('submission.rejected.list') }}">Rejected</a></li>
         </ul>
       </li>
     </ul>
