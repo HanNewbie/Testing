@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\News;
 use Carbon\Carbon; 
+use App\Models\Activity;
 
 class NewsController extends Controller
 {
@@ -46,6 +47,10 @@ class NewsController extends Controller
         }
 
         News::create($data);
+        Activity::create([
+            'admin_id' => auth('admin')->id(),
+            'description' => 'menambahkan berita baru.',
+        ]);
 
         return redirect()->route('news.index')->with('success', 'Berita berhasil ditambahkan.');
     }
@@ -78,6 +83,10 @@ class NewsController extends Controller
         }
 
         $news->update($data);
+        Activity::create([
+            'admin_id' => auth('admin')->id(),
+            'description' => 'mengedit berita.',
+        ]);
 
         return redirect()->route('news.index')->with('success', 'Berita berhasil diperbarui.');
     }

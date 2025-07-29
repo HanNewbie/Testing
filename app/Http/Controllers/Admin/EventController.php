@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Submission;
+use App\Models\Activity;
 
 class EventController extends Controller
 {
@@ -76,6 +77,11 @@ class EventController extends Controller
 
         Event::create($data);
 
+        Activity::create([
+            'admin_id' => auth('admin')->id(),
+            'description' => 'menambahkan jadwal event baru.',
+        ]);
+        
         return redirect()->route('event.index')->with('success', 'Data berhasil ditambahkan.');
     }
 
@@ -127,6 +133,11 @@ class EventController extends Controller
 
         // Update jika tidak bentrok
         $event->update($data);
+
+        Activity::create([
+            'admin_id' => auth('admin')->id(),
+            'description' => 'mengedit jadwal event.',
+        ]);
 
         return redirect()->route('event.index')->with('success', 'Data berhasil diperbarui.');
     }

@@ -24,10 +24,22 @@
 
             {{-- Harga Tiket --}}
             <div class="mb-4 flex items-center">
-                <label for="price" class="w-1/4 font-medium">Harga Tiket</label>
-                <input type="number" name="price" id="price" class="border px-4 py-2 rounded-lg w-3/4" value="{{ old('price') }}" required>
+                <label class="w-1/4 font-medium">Harga Tiket</label>
+                <div class="flex items-center gap-2 w-3/4">
+                    <div class="w-full">
+                        <label for="price_weekday" class="block font-medium mb-1">Weekday</label>
+                        <input type="number" name="price_weekday" id="price_weekday"
+                            class="border px-4 py-2 rounded-lg w-full" value="{{ old('price_weekday') }}" required>
+                    </div>
+                    <div class="text-xl font-semibold text-gray-600 pt-6">/</div>
+                    <div class="w-full">
+                        <label for="price_weekend" class="block font-medium mb-1">Weekend</label>
+                        <input type="number" name="price_weekend" id="price_weekend"
+                            class="border px-4 py-2 rounded-lg w-full" value="{{ old('price_weekend') }}" required>
+                    </div>
+                </div>
             </div>
-
+            
             {{-- Jam Operasional --}}
             <div class="mb-4 flex items-center">
                 <label class="w-1/4 font-medium">Jam Operasional</label>

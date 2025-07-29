@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('appl_letter')->nullable();
             $table->string('actv_letter')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

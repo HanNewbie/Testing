@@ -56,8 +56,8 @@
                                                 phone: '{{ $user->phone }}'
                                             };
                                         "
-                                        class="bg-green-500 hover:bg-green-600 p-2 rounded-lg">
-                                        <img src="{{ asset('assets/img/Edit.png') }}" alt="Edit" class="w-5 h-5">
+                                        class="flex items-center justify-center bg-green-500 hover:bg-green-600 w-9 h-9 rounded-lg">
+                                        <img src="{{ asset('assets/img/Edit.png') }}" alt="Edit" class="w-5 h-5 object-contain">
                                     </button>
 
                                     <!-- Tombol Delete -->
@@ -112,8 +112,6 @@
     </main>
 </div>
 
-<!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-button');

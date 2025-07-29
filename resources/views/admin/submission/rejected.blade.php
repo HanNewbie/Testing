@@ -25,6 +25,7 @@
           <th class="p-3">Pengajuan</th>
           <th class="p-3">Spesifikasi</th>
           <th class="p-3">Lampiran</th>
+          <th class="p-3">Notes</th>
           <th class="p-3">Aksi</th>
         </tr>
       </thead>
@@ -61,6 +62,7 @@
                 <span class="text-gray-500 italic">Tidak ada</span>
               @endif
             </td>
+            <td class="p-3">{{ $sub->notes ?? 'Tidak ada catatan' }}</td>
             <td class="p-3 text-center">
                 <a class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm">{{$sub->status}}</a>
             </td>

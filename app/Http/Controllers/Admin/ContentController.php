@@ -33,7 +33,8 @@ class ContentController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'nullable|string',
+            'price_weekday' => 'nullable|string',
+            'price_weekend' => 'nullable|string',
             'open_time' => 'nullable|date_format:H:i',
             'close_time' => 'nullable|date_format:H:i',
             'location' => 'nullable|string|max:255',
@@ -49,6 +50,10 @@ class ContentController extends Controller
         }
 
         Content::create($data);
+        Activity::create([
+            'admin_id' => auth('admin')->id(),
+            'description' => 'menambahkan tempat wisata baru.',
+        ]);
 
         return redirect()->route('content.index')->with('success', 'Konten berhasil ditambahkan.');
         } catch (\Exception $e) {
@@ -70,7 +75,8 @@ class ContentController extends Controller
             'name' => 'sometimes|string|max:255',
             'slug' => 'nullable|string|max:255|unique:content,slug,' . $content->id,
             'description' => 'nullable|string',
-            'price' => 'nullable|numeric',
+            'price_weekday' => 'nullable|string',
+            'price_weekend' => 'nullable|string',
             'open_time' => 'nullable|date_format:H:i',
             'close_time' => 'nullable|date_format:H:i',
             'location' => 'nullable|string|max:255',
@@ -91,6 +97,10 @@ class ContentController extends Controller
         }
 
         $content->update($data);
+        Activity::create([
+            'admin_id' => auth('admin')->id(),
+            'description' => 'mengedit tempat wisata.',
+        ]);
 
         return redirect()->route('content.index')->with('success', 'Konten berhasil diupdate.');
         } catch (\Exception $e) {

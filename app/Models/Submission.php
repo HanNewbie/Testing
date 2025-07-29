@@ -19,5 +19,6 @@ class Submission extends Model
         'appl_letter',
         'actv_letter',
         'status',
+        'notes',
     ];
 }

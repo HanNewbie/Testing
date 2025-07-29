@@ -78,14 +78,21 @@
                 </form>
 
                 {{-- Reject --}}
-                <form action="{{ route('submission.rejected', $sub->id) }}" method="POST" class="inline-block ml-2 form-reject-{{ $sub->id }}">
+               <form action="{{ route('submission.rejected', $sub->id) }}" method="POST" class="hidden" id="form-reject-{{ $sub->id }}">
                     @csrf
                     @method('PUT')
-                    <button type="button" onclick="confirmReject({{ $sub->id }})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm">
-                    Reject
-                    </button>
+                    <input type="hidden" name="notes" id="notes-{{ $sub->id }}">
                 </form>
-                </td>
+
+                <!-- Tombol Trigger -->
+                <button 
+                    type="button" 
+                    onclick="confirmReject({{ $sub->id }})" 
+                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-sm"
+                >
+                    Reject
+                </button>
+              </td>
           </tr>
         @empty
           <tr>
@@ -115,19 +122,31 @@
 
     function confirmReject(id) {
         Swal.fire({
-        title: 'Tolak Pengajuan?',
-        text: "Tindakan ini tidak bisa dibatalkan.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#dc3545',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Ya, tolak'
+            title: 'Tolak Pengajuan?',
+            input: 'textarea',
+            inputLabel: 'Catatan (Notes)',
+            inputPlaceholder: 'Tulis alasan penolakan di sini...',
+            inputAttributes: {
+                'aria-label': 'Tulis alasan di sini'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Selesai',
+            cancelButtonText: 'Kembali',
+            reverseButtons: true,
+            preConfirm: (notes) => {
+                if (!notes) {
+                    Swal.showValidationMessage('Catatan wajib diisi')
+                }
+                return notes;
+            }
         }).then((result) => {
-        if (result.isConfirmed) {
-            document.querySelector('.form-reject-' + id).submit();
-        }
+            if (result.isConfirmed) {
+                // Masukkan catatan ke input form & submit
+                document.getElementById('notes-' + id).value = result.value;
+                document.getElementById('form-reject-' + id).submit();
+            }
         });
-    }
+    } 
     </script>
 
     @if(session('error'))

@@ -59,14 +59,14 @@
                                 @if ($item->type === 'event')
                                     {{-- Tombol edit dan delete khusus Event --}}
                                     <div class="flex justify-center space-x-2">
-                                        <button onclick="window.location='{{ route('event.edit', $item->id) }}'" class="bg-green-500 hover:bg-green-600 p-2 rounded-lg">
-                                            <img src="{{ asset('assets/img/Edit.png') }}" alt="Edit" class="w-5 h-5">
+                                        <button onclick="window.location='{{ route('event.edit', $item->id) }}'" class="flex items-center justify-center bg-green-500 hover:bg-green-600 w-9 h-9 rounded-lg">
+                                            <img src="{{ asset('assets/img/Edit.png') }}" alt="Edit" class="w-5 h-5 object-contain">
                                         </button>
                                         <form id="delete-form-{{ $item->id }}" method="POST" action="{{ route('event.destroy', $item->id) }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" data-id="{{ $item->id }}" class="delete-button bg-red-500 hover:bg-red-600 p-2 rounded-lg">
-                                                <img src="{{ asset('assets/img/Trash.png') }}" alt="Delete" class="w-5 h-5">
+                                            <button type="button" data-id="{{ $item->id }}" class="flex items-center justify-center bg-red-500 hover:bg-red-600 w-9 h-9 rounded-lg delete-button">
+                                                <img src="{{ asset('assets/img/Trash.png') }}" alt="Delete" class="w-5 h-5 object-contain">
                                             </button>
                                         </form>
                                     </div>

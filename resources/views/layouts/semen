@@ -1,0 +1,170 @@
+{{-- <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="assets/css/input.css" />
+  <link rel="stylesheet" href="assets/css/output.css">
+  <script src="{{ asset('assets/js/index.js') }}"></script>
+</head>
+<body class="bg-gray-100">
+  <div class="flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-md p-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <img src="{{ asset('assets/img/logo blud.png') }}" alt="Logo" class="h-10 mr-2">
+      </div>
+      <div class="flex items-center">
+        <span class="mr-4 font-medium text-gray-700">{{ auth()->user()->username }}</span>
+        <img src="{{ auth()->user()->photo }}" alt="Profile" class="h-10 w-10 rounded-full border border-gray-300">
+      </div>
+    </header>
+
+    <div class="flex flex-1">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-white shadow-md flex flex-col">
+        <nav class="mt-4 flex-1">
+          <ul>
+            <!-- Dashboard -->
+            <li>
+              <a href="{{ route('admin.dashboard') }}" class="w-full block px-6 py-3 rounded text-left {{ request()->routeIs('admin.dashboard') ? 'bg-blue-500 text-white' : 'hover:bg-blue-100 text-black' }}">
+                🏠 Dashboard
+              </a>
+            </li>
+
+            <!-- Pengguna -->
+            @php $isUserActive = request()->is('admin/account*') || request()->is('admin/umum*'); @endphp
+            <li>
+              <button id="buttonPengguna" onclick="toggleDropdown('dropdownUserMenu', 'buttonPengguna')"
+                class="w-full flex justify-between items-center px-6 py-3 rounded text-left {{ $isUserActive ? 'bg-blue-500 text-white' : 'hover:bg-blue-100 text-black' }}">
+                <div class="flex items-center">
+                  <span class="mr-3">👤</span> Pengguna
+                </div>
+                <img src="{{ asset('assets/img/dropdownimg.png') }}" class="w-4 h-4">
+              </button>
+              <ul id="dropdownUserMenu" class="ml-6 mt-1 text-sm bg-white shadow-md rounded-md {{ $isUserActive ? '' : 'hidden' }}">
+                <li class="px-6 py-2 {{ request()->routeIs('admin.account.index') ? 'bg-blue-500 text-white' : 'hover:bg-blue-100' }}">
+                  <a href="{{ route('account.index') }}">Admin</a>
+                </li>
+                <li class="px-6 py-2 hover:bg-blue-100">
+                  <a href="{{ route('user.index') }}">Umum</a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Edit Fitur -->
+            @php $isFiturActive = request()->is('admin/fitur*') || request()->is('jadwal*') || request()->is('berita*') || request()->is('tempatwisata*'); @endphp
+            <li>
+              <button id="buttonEditFitur" onclick="toggleDropdown('dropdownEditFitur', 'buttonEditFitur')"
+                class="w-full flex justify-between items-center px-6 py-3 rounded text-left {{ $isFiturActive ? 'bg-blue-500 text-white' : 'hover:bg-blue-100 text-black' }}">
+                <div class="flex items-center">
+                  <span class="mr-3">⚙️</span> Edit Fitur
+                </div>
+                <img src="{{ asset('assets/img/dropdownimg.png') }}" class="w-4 h-4">
+              </button>
+              <ul id="dropdownEditFitur" class="ml-6 mt-1 text-sm bg-white shadow-md rounded-md {{ $isFiturActive ? '' : 'hidden' }}">
+                <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('event.index') }}">Jadwal</a></li>
+                <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('news.index') }}">Berita</a></li>
+                <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('content.index') }}">Tempat Wisata</a></li>
+              </ul>
+            </li>
+
+            <!-- Pengajuan -->
+            @php $isPengajuanActive = request()->is('pengajuanadmin*') || request()->is('approvenew*') || request()->is('rejectpengajuan*'); @endphp
+            <li>
+              <button id="buttonPengajuan" onclick="toggleDropdown('dropdownPengajuan', 'buttonPengajuan')"
+                class="w-full flex justify-between items-center px-6 py-3 rounded text-left {{ $isPengajuanActive ? 'bg-blue-500 text-white' : 'hover:bg-blue-100 text-black' }}">
+                <div class="flex items-center">
+                  <span class="mr-3">📁</span> Pengajuan
+                </div>
+                <img src="{{ asset('assets/img/dropdownimg.png') }}" class="w-4 h-4">
+              </button>
+              <ul id="dropdownPengajuan" class="ml-6 mt-1 text-sm bg-white shadow-md rounded-md {{ $isPengajuanActive ? '' : 'hidden' }}">
+                <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('submission.index') }}">List Pengajuan</a></li>
+                <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('submission.approved.list') }}">Approved</a></li>
+                <li class="px-6 py-2 hover:bg-blue-100"><a href="{{ route('submission.rejected.list') }}">Rejected</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <div class="px-4 py-6 border-t">
+          <form method="POST" action="{{ route('admin.logout') }}">
+            @csrf
+            <button type="submit" class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+              Logout
+            </button>
+          </form>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        @yield('content')
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white p-4 text-center text-sm text-gray-500">
+      © BLUD Pariwisata, All rights reserved.
+    </footer>
+  </div>
+
+  <!-- Dropdown & Button Logic -->
+  <script>
+    let activeButtonId = null;
+
+    function resetButtonStyles(exceptId = null) {
+      const buttonIds = ['buttonPengguna', 'buttonEditFitur', 'buttonPengajuan'];
+      buttonIds.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          if (id === exceptId) {
+            btn.classList.add('bg-blue-500', 'text-white');
+            btn.classList.remove('hover:bg-blue-100', 'text-black');
+            activeButtonId = id;
+          } else {
+            btn.classList.remove('bg-blue-500', 'text-white');
+            btn.classList.add('hover:bg-blue-100', 'text-black');
+          }
+        }
+      });
+    }
+
+    function closeAllDropdowns(exceptId = null) {
+      const dropdownIds = ['dropdownUserMenu', 'dropdownEditFitur', 'dropdownPengajuan'];
+      dropdownIds.forEach(id => {
+        const dropdown = document.getElementById(id);
+        if (dropdown && id !== exceptId) {
+          dropdown.classList.add('hidden');
+        }
+      });
+    }
+
+    function toggleDropdown(menuId, buttonId) {
+      const dropdown = document.getElementById(menuId);
+      const isHidden = dropdown.classList.contains('hidden');
+      closeAllDropdowns(isHidden ? menuId : null);
+      dropdown.classList.toggle('hidden', !isHidden);
+      resetButtonStyles(isHidden ? buttonId : null);
+    }
+
+    document.addEventListener('click', function (e) {
+      const isClickInsideSidebar = e.target.closest('aside');
+      if (!isClickInsideSidebar) {
+        closeAllDropdowns();
+        resetButtonStyles(activeButtonId);
+      }
+    });
+
+    // Tutup dropdown saat klik link dalam dropdown
+    document.querySelectorAll('#dropdownUserMenu a, #dropdownEditFitur a, #dropdownPengajuan a').forEach(link => {
+      link.addEventListener('click', () => {
+        closeAllDropdowns();
+      });
+    });
+  </script>
+</body>
+</html>

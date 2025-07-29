@@ -40,7 +40,7 @@
                         <tr class="border-b">
                             <td class="p-3 text-center align-middle">{{ $loop->iteration }}</td>
                             <td class="p-3 text-center align-middle">{{ $content->name }}</td>
-                            <td class="p-3 text-center align-middle">Rp{{ $content->price }}</td>
+                            <td class="p-3 text-center align-middle">Rp{{ $content->price_weekday }}</td>
                             <td class="p-3 text-center align-middle">
                                 {{ \Carbon\Carbon::parse($content->open_time)->format('h:i') }} -
                                 {{ \Carbon\Carbon::parse($content->close_time)->format('h:i') }}
@@ -74,9 +74,10 @@
                                         <h2 class="text-xl font-semibold text-center mb-2">{{ $content->name }}</h2>
 
                                         <p class="text-gray-600 text-sm text-center mb-4">
-                                            <strong>Harga Tiket:</strong>Rp{{$content->price}} <br>
-                                            <strong>Jam Operasional:</strong> {{ \Carbon\Carbon::parse($content->open_time)->format('h:i') }} - {{\Carbon\Carbon::parse($content->close_time)->format('h:i') }}<br>
-                                            <strong>Lokasi:</strong> {{ $content->location }}
+                                            <strong>Harga Tiket Weekday : </strong>Rp{{$content->price_weekday}}<br>
+                                            <strong>Harga Tiket Weekend : </strong>Rp{{$content->price_weekend}}<br>
+                                            <strong>Jam Operasional : </strong> {{ \Carbon\Carbon::parse($content->open_time)->format('h:i') }} - {{\Carbon\Carbon::parse($content->close_time)->format('h:i') }}<br>
+                                            <strong>Lokasi : </strong> {{ $content->location }}
                                         </p>
 
                                         <div class="text-gray-800 text-justify leading-relaxed border-t pt-4">
@@ -88,14 +89,14 @@
                             </td>
                             <td class="p-3 text-center align-middle">
                                 <div class="flex justify-center space-x-2">
-                                    <button onclick="window.location='{{ route('content.edit', $content->id) }}'" class="bg-green-500 hover:bg-green-600 p-2 rounded-lg">
-                                            <img src="{{ asset('assets/img/Edit.png') }}" alt="Edit" class="w-5 h-5">
+                                    <button onclick="window.location='{{ route('content.edit', $content->id) }}'" class="flex items-center justify-center bg-green-500 hover:bg-green-600 w-9 h-9 rounded-lg">
+                                            <img src="{{ asset('assets/img/Edit.png') }}" alt="Edit" class="w-5 h-5 object-contain">
                                     </button>
                                     <form id="delete-form-{{ $content->id }}" method="POST" action="{{ route('content.destroy', $content->id) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" data-id="{{ $content->id }}" class="delete-button bg-red-500 hover:bg-red-600 p-2 rounded-lg">
-                                            <img src="{{ asset('assets/img/Trash.png') }}" alt="Delete" class="w-5 h-5">
+                                        <button type="button" data-id="{{ $content->id }}" class="flex items-center justify-center bg-red-500 hover:bg-red-600 w-9 h-9 rounded-lg delete-button">
+                                            <img src="{{ asset('assets/img/Trash.png') }}" alt="Delete" class="w-5 h-5 object-contain">
                                         </button>
                                     </form>
                                 </div>
@@ -104,7 +105,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center p-4 text-gray-500">Data Event belum tersedia.</td>
+                            <td colspan="8" class="text-center p-4 text-gray-500">Data belum tersedia.</td>
                         </tr>
                     @endforelse
                 </tbody>

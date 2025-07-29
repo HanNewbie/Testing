@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('price')->nullable();
+            $table->string('price_weekday')->nullable();
+            $table->string('price_weekend')->nullable();
             $table->time('open_time')->nullable();
             $table->time('close_time')->nullable();
             $table->string('location')->nullable();

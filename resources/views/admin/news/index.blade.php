@@ -75,14 +75,14 @@
                             </td>
                               <td class="p-3 text-center align-middle">
                                 <div class="flex justify-center space-x-2">
-                                    <button onclick="window.location='{{ route('news.edit', $newsItem->id) }}'" class="bg-green-500 hover:bg-green-600 p-2 rounded-lg">
-                                            <img src="{{ asset('assets/img/Edit.png') }}" alt="Edit" class="w-5 h-5">
+                                    <button onclick="window.location='{{ route('news.edit', $newsItem->id) }}'" class="flex items-center justify-center bg-green-500 hover:bg-green-600 w-9 h-9 rounded-lg">
+                                            <img src="{{ asset('assets/img/Edit.png') }}" alt="Edit" class="w-5 h-5 object-contain">
                                     </button>
                                     <form id="delete-form-{{ $newsItem->id }}" method="POST" action="{{ route('news.destroy', $newsItem->id) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" data-id="{{ $newsItem->id }}" class="delete-button bg-red-500 hover:bg-red-600 p-2 rounded-lg">
-                                            <img src="{{ asset('assets/img/Trash.png') }}" alt="Delete" class="w-5 h-5">
+                                        <button type="button" data-id="{{ $newsItem->id }}" class="flex items-center justify-center bg-red-500 hover:bg-red-600 w-9 h-9 rounded-lg delete-button">
+                                            <img src="{{ asset('assets/img/Trash.png') }}" alt="Delete" class="w-5 h-5 object-contain">
                                         </button>
                                     </form>
                                 </div>

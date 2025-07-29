@@ -96,6 +96,9 @@ class SubmissionController extends Controller
             $actvLetterPath = $actvLetterFile->store('assets/actv_letters', 'public');
             $data['actv_letter'] = $actvLetterPath;
         }
+
+        $data['notes'] = $request->input('notes', null);
+
         Submission::create($data);
 
         return redirect()->route('submission.index')->with('success', 'Data berhasil disimpan.');
@@ -115,13 +118,19 @@ class SubmissionController extends Controller
         return back()->with('success', 'Pengajuan disetujui.');
     }
 
-    public function reject($id)
+    public function reject(Request $request, $id)
     {
+        $request->validate([
+            'notes' => 'required|string|max:1000',
+        ]);
+
         $submission = Submission::findOrFail($id);
-        $submission->update(['status' => 'rejected']);
+        $submission->status = 'rejected';
+        $submission->notes = $request->notes; // pastikan kolom `notes` ada di tabel
         $submission->save();
 
         return back()->with('success', 'Pengajuan ditolak.');
     }
+
 
 }
