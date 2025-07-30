@@ -9,10 +9,20 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\SubmissionController;
+use App\Http\Controllers\User\HomeController;
 
+
+// User routes
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/event', [HomeController::class, 'event'])->name('event');
+Route::get('/booking/{slug}', [HomeController::class, 'booking'])->name('booking');
+Route::get('/booking/{slug}/{bulan}', [HomeController::class, 'bookingDetail'])->name('booking.detail');
+Route::get('/wisata',[HomeController::class, 'content'])->name('wisata');
+Route::get('/wisata/{slug}',[HomeController::class, 'contentDetail'])->name('wisata.detail');
+
+// Admin routes
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
-
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('/logout', function () {Auth::logout();return redirect('/admin/login');})->name('admin.logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -29,6 +39,3 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::put('submission/{id}/reject', [SubmissionController::class, 'reject'])->name('submission.rejected');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});

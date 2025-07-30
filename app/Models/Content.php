@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Event;
+use App\Models\submission;
 
 class Content extends Model
 {
@@ -19,4 +21,15 @@ class Content extends Model
         'location',
         'image',
     ];
+
+    public function event()
+    {
+        return $this->hasMany(Event::class, 'name');
+    }
+
+    public function submission()
+    {
+        return $this->hasMany(Submission::class, 'name');
+    }
+    
 }

@@ -19,9 +19,21 @@
             </div>
 
             <div class="mb-4 flex items-center">
+                <label for="location" class="w-1/4 font-medium">Lokasi</label>
+                <select name="location" id="location" required
+                    class="w-3/4 border px-4 py-2 rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
+                    <option value="">--PILIH LOKASI--</option>
+                    @foreach($contents as $ctn)
+                        <option value="{{ $ctn->name }}" {{ old('location', $event->location) == $ctn->name ? 'selected' : '' }}>
+                            {{ $ctn->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="mb-4 flex items-center">
                 <label class="w-1/4 font-medium">Tanggal</label>
                 <div class="w-3/4 flex gap-2">
-                    
                     <input type="date" name="start_date" value="{{ old('start_date', \Carbon\Carbon::parse($event->start_date)->format('Y-m-d')) }}"
                         class="w-1/2 border px-4 py-2 rounded-lg focus:outline-none focus:ring focus:ring-blue-300" required>
                     <input type="date" name="end_date" value="{{ old('end_date', \Carbon\Carbon::parse($event->end_date)->format('Y-m-d')) }}"

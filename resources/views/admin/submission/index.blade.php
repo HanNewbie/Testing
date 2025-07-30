@@ -103,72 +103,78 @@
     </table>
   </div>
 </main>
-    <script>
-    function confirmApprove(id) {
-        Swal.fire({
-        title: 'Setujui Pengajuan?',
-        text: "Pastikan data pengajuan sudah benar.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#28a745',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, setujui'
-        }).then((result) => {
-        if (result.isConfirmed) {
-            document.querySelector('.form-approve-' + id).submit();
+  <script>
+      // Fungsi Approve
+      function confirmApprove(id) {
+          Swal.fire({
+              title: 'Setujui Pengajuan?',
+              text: "Pastikan data pengajuan sudah benar.",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#28a745',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya, setujui'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  document.querySelector('.form-approve-' + id).submit();
+              }
+          });
         }
-        });
-    }
 
-    function confirmReject(id) {
-        Swal.fire({
-            title: 'Tolak Pengajuan?',
-            input: 'textarea',
-            inputLabel: 'Catatan (Notes)',
-            inputPlaceholder: 'Tulis alasan penolakan di sini...',
-            inputAttributes: {
-                'aria-label': 'Tulis alasan di sini'
-            },
-            showCancelButton: true,
-            confirmButtonText: 'Selesai',
-            cancelButtonText: 'Kembali',
-            reverseButtons: true,
-            preConfirm: (notes) => {
-                if (!notes) {
-                    Swal.showValidationMessage('Catatan wajib diisi')
+      // Fungsi Reject
+      function confirmReject(id) {
+          Swal.fire({
+              title: 'Tolak Pengajuan?',
+              input: 'textarea',
+              inputLabel: 'Catatan (Notes)',
+              inputPlaceholder: 'Tulis alasan penolakan di sini...',
+              inputAttributes: {
+                  'aria-label': 'Tulis alasan di sini'
+              },
+              showCancelButton: true,
+              confirmButtonText: 'Selesai',
+              cancelButtonText: 'Kembali',
+              reverseButtons: false,
+              preConfirm: (notes) => {
+                  if (!notes) {
+                      Swal.showValidationMessage('Catatan wajib diisi')
+                  }
+                  return notes;
+              }
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  document.getElementById('notes-' + id).value = result.value;
+                  document.getElementById('form-reject-' + id).submit();
                 }
-                return notes;
+              });
             }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Masukkan catatan ke input form & submit
-                document.getElementById('notes-' + id).value = result.value;
-                document.getElementById('form-reject-' + id).submit();
-            }
-        });
-    } 
-    </script>
 
-    @if(session('error'))
-    <script>
-        Swal.fire({
-            title: "Gagal!",
-            text: "{{ session('error') }}",
-            icon: "error",
-            confirmButtonColor: "#d33"
-        });
-    </script>
-    @endif
+      // Jalankan flash alert hanya jika bukan dari back/forward cache
+      window.addEventListener('pageshow', function (event) {
+          const fromCache = event.persisted || performance.getEntriesByType("navigation")[0]?.type === "back_forward";
+          if (fromCache) return;
 
-    @if(session('success'))
-    <script>
-        Swal.fire({
-            title: "Berhasil!",
-            text: "{{ session('success') }}",
-            icon: "success",
-            confirmButtonColor: "#3085d6"
-        });
-    </script>
-    @endif
+          // Flash message: error
+          @if(session('error'))
+          Swal.fire({
+              title: "Gagal!",
+              text: @json(session('error')),
+              icon: "error",
+              confirmButtonColor: "#d33"
+          });
+          @endif
+
+          // Flash message: success
+          @if(session('success'))
+          Swal.fire({
+              title: "Berhasil!",
+              text: @json(session('success')),
+              icon: "success",
+              confirmButtonColor: "#3085d6"
+          });
+          @endif
+      });
+  </script>
+
 
 @endsection

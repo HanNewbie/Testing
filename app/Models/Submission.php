@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Content;
 
 class Submission extends Model
 {
@@ -10,6 +11,7 @@ class Submission extends Model
 
     protected $fillable = [
         'vendor',
+        'location',
         'apply_date',
         'start_date',
         'end_date',
@@ -21,4 +23,10 @@ class Submission extends Model
         'status',
         'notes',
     ];
+
+    public function content()
+    {
+        return $this->belongsTo(Content::class, 'name');
+    }
+
 }

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('name_event');
-            $table->string('file')->nullable(); // Optional field for file upload
+            $table->string('file')->nullable();
+            $table->string('location')->references('name')->on('content')->onDelete('cascade');
             $table->timestamps();
         });
     }

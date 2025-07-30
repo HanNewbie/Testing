@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="assets/css/output.css" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/input.css" />
+  {{-- <link href="assets/css/output.css" rel="stylesheet" /> --}}
+  {{-- <link rel="stylesheet" href="{{ asset('assets/css/input.css') }}" /> --}}
+  <link rel="stylesheet" href="{{ asset('assets/css/output.css') }}" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{{ asset('assets/js/index.js') }}"></script>
@@ -29,16 +30,16 @@
           class="absolute right-4 top-full hidden w-full max-w-[250px] rounded-lg bg-white py-5 shadow-lg lg:static lg:block lg:max-w-full lg:rounded-none lg:bg-transparent lg:shadow-none">
           <ul class="block lg:flex lg:items-center">
             <li class="group">
-              <a href="index.html"
+              <a href="{{ route('home') }}"
                 class="mx-8 flex py-2 text-base font-bold text-blue-400 group-hover:text-primary">Home</a>
             </li>
             <li class="group">
               <li>
-                <a href="jadwal_event.html" class="block p-2 hover:bg-gray-100">Jadwal</a>
+                <a href="{{ route('event') }}" class="block p-2 hover:bg-gray-100">Jadwal</a>
               </li>  
             </li>
             <li class="group">
-              <a href="objek_wisata.html"
+              <a href="{{ route('wisata') }}"
                 class="mx-8 flex py-2 text-base font text-gray-800 group-hover:text-primary">Objek Wisata</a>
             </li>
             <li class="group">

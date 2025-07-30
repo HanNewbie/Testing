@@ -74,9 +74,10 @@
     </ul>
   </nav>
     <div class="px-4 py-3 border-t mt-auto">
-      <form method="POST" action="{{ route('admin.logout') }}">
+      <form id="logout-form" method="POST" action="{{ route('admin.logout') }}">
         @csrf
-        <button type="submit" class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 mt-1">
+        <button type="button" id="btn-logout"
+                class="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 mt-1">
           Logout
         </button>
       </form>
@@ -96,31 +97,50 @@
   </div>
 
     <script>
-  const dropdowns = ['pengguna', 'fitur', 'pengajuan'];
+      const dropdowns = ['pengguna', 'fitur', 'pengajuan'];
 
-  function toggleDropdown(id) {
-    dropdowns.forEach(name => {
-      const el = document.getElementById('dropdown-' + name);
-      if (name === id) {
-        el.classList.toggle('hidden');
-      } else {
-        el.classList.add('hidden');
+      function toggleDropdown(id) {
+        dropdowns.forEach(name => {
+          const el = document.getElementById('dropdown-' + name);
+          if (name === id) {
+            el.classList.toggle('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        });
       }
-    });
-  }
 
   // Tutup dropdown jika klik di luar
-  document.addEventListener('click', function (e) {
-    const isInside = dropdowns.some(name => {
-      return e.target.closest(`#dropdown-${name}`) || e.target.closest(`button[onclick*="${name}"]`);
-    });
+        document.addEventListener('click', function (e) {
+          const isInside = dropdowns.some(name => {
+            return e.target.closest(`#dropdown-${name}`) || e.target.closest(`button[onclick*="${name}"]`);
+          });
 
-    if (!isInside) {
-      dropdowns.forEach(name => {
-        document.getElementById('dropdown-' + name).classList.add('hidden');
-      });
-    }
-  });
-</script>
+          if (!isInside) {
+            dropdowns.forEach(name => {
+              document.getElementById('dropdown-' + name).classList.add('hidden');
+            });
+          }
+        });
+      </script>
+
+      <script>
+        document.getElementById('btn-logout').addEventListener('click', function () {
+          Swal.fire({
+            title: 'Keluar dari sesi?',
+            text: 'Anda akan keluar dari dashboard.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, logout',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            confirmButtonColor: '#ef4444' // opsional
+          }).then((result) => {
+            if (result.isConfirmed) {
+              document.getElementById('logout-form').submit();
+            }
+          });
+        });
+      </script>
 
 </html>

@@ -55,7 +55,10 @@
 
             <div>
                 <label class="block text-sm font-medium mb-1">Foto</label>
-                <input type="file" name="photo" class="w-full border rounded-lg px-3 py-2">
+                <input type="file" name="photo" accept=".jpg,.jpeg,.png,." class="w-full border rounded-lg px-3 py-2">
+                  @error('photo')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 @if($admin->photo)
                     <img src="{{ asset($admin->photo) }}" alt="Foto Admin" class="h-20 w-20 mt-2 rounded-full">
                 @endif
@@ -74,4 +77,14 @@
         </div>
     </form>
 </div>
+@if(session('error'))
+<script>
+    Swal.fire({
+        title: "Gagal!",
+        text: "{{ session('error') }}",
+        icon: "error",
+        confirmButtonColor: "#d33"
+    });
+</script>
+@endif
 @endsection

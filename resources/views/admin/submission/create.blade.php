@@ -24,6 +24,19 @@
                 <input type="text" name="vendor" id="vendor" class="w-full border px-4 py-2 rounded" value="{{ old('vendor') }}" required>
             </div>
 
+            <div class="mb-4">
+                <label for="location" class="w-1/4 font-medium">Lokasi</label>
+                <select name="location" id="location" required
+                    class="w-full border px-4 py-2 rounded">
+                    <option value="">--PILIH LOKASI--</option>
+                    @foreach($contents as $ctn)
+                        <option value="{{ $ctn->name }}" {{ old('location') == $ctn->name ? 'selected' : '' }}>
+                            {{ $ctn->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             {{-- Nama Event --}}
             <div class="mb-4">
                 <label for="name_event" class="block font-medium mb-1">Nama Event</label>

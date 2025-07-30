@@ -18,6 +18,19 @@
                     placeholder="Penyewa" required>
             </div>
 
+            <div class="mb-4 flex items-center">
+                <label for="location" class="w-1/4 font-medium">Lokasi</label>
+                <select name="location" id="location" required
+                    class="w-3/4 border px-4 py-2 rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
+                    <option value="">--PILIH LOKASI--</option>
+                    @foreach($contents as $ctn)
+                        <option value="{{ $ctn->name }}" {{ old('location') == $ctn->name ? 'selected' : '' }}>
+                            {{ $ctn->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             {{-- Rentang Tanggal --}}
             <div class="mb-4 flex items-center">
                 <label class="w-1/4 font-medium">Tanggal</label>
@@ -38,8 +51,8 @@
             </div>
 
             <div class="mb-4 flex items-center">
-                <label for="rundown" class="w-1/4 font-medium">Upload Rundown (PDF)</label>
-                <input type="file" name="rundown" id="rundown"
+                <label for="file" class="w-1/4 font-medium">Upload Rundown (PDF)</label>
+                <input type="file" name="file" id="file"
                     accept="application/pdf"
                     class="w-3/4 border px-4 py-2 rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
             </div>

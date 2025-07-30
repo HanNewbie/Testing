@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Submission;
+use App\Models\Content;
 use Carbon\Carbon; 
-
 
 class SubmissionController extends Controller
 {
@@ -39,10 +39,8 @@ class SubmissionController extends Controller
 
     public function rejected(Request $request)
     {
-        $query = Submission::query()
-            ->where('status', 'rejected'); // Tetap filter status
+        $query = Submission::query()->where('status', 'rejected');
 
-        // Tambah filter vendor kalau ada pencarian
         if ($request->filled('search')) {
             $query->where('vendor', 'like', '%' . $request->search . '%');
         }
@@ -55,7 +53,8 @@ class SubmissionController extends Controller
 
     public function create()
     {
-        return view('admin.submission.create');
+        $contents = Content::all();
+        return view('admin.submission.create', compact('contents'));
     }
     
     public function store(Request $request)
@@ -63,6 +62,7 @@ class SubmissionController extends Controller
         try {
          $data = $request->validate([
         'vendor' => 'required|string|max:255',
+        'location'  => 'required|exists:content,name',
         'start_date' => 'required|date',
         'end_date' => 'required|date',
         'name_event' => 'required|string|max:255',
@@ -72,8 +72,9 @@ class SubmissionController extends Controller
         'actv_letter' => 'file|mimes:pdf',
         ]);
 
-        $data['status'] = 'pending';
+        $content = Content::where('name', $data['location'])->firstOrFail();
 
+        $data['status'] = 'pending';
         $data['apply_date'] = Carbon::now()->format('Y-m-d H:i');
 
         if ($request->hasFile('file')) {
@@ -126,7 +127,7 @@ class SubmissionController extends Controller
 
         $submission = Submission::findOrFail($id);
         $submission->status = 'rejected';
-        $submission->notes = $request->notes; // pastikan kolom `notes` ada di tabel
+        $submission->notes = $request->notes; 
         $submission->save();
 
         return back()->with('success', 'Pengajuan ditolak.');

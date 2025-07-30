@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('submission', function (Blueprint $table) {
             $table->id();
             $table->string('vendor');
+            $table->string('location')->references('name')->on('content')->onDelete('cascade');
             $table->date('apply_date');
             $table->date('start_date');
             $table->date('end_date');

@@ -114,6 +114,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Tombol Hapus
             const deleteButtons = document.querySelectorAll('.delete-button');
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function () {
@@ -136,38 +137,41 @@
                 });
             });
         });
-    </script>
 
-    @if(session('error'))
-    <script>
-        Swal.fire({
-            title: "Gagal!",
-            text: "{{ session('error') }}",
-            icon: "error",
-            confirmButtonColor: "#d33"
+        // Jalankan flash hanya jika halaman bukan dari bfcache
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted || window.performance.getEntriesByType("navigation")[0]?.type === "back_forward") {
+                // Jangan jalankan apa-apa jika halaman dari cache
+                return;
+            }
+
+            // Flash session (sweet alert)
+            @if(session('error'))
+            Swal.fire({
+                title: "Gagal!",
+                text: @json(session('error')),
+                icon: "error",
+                confirmButtonColor: "#d33"
+            });
+            @endif
+
+            @if(session('success'))
+            Swal.fire({
+                title: "Berhasil!",
+                text: @json(session('success')),
+                icon: "success",
+                confirmButtonColor: "#3085d6"
+            });
+            @endif
         });
+
+        function openModal(id) {
+            document.getElementById(`modal-${id}`).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(`modal-${id}`).classList.add('hidden');
+        }
     </script>
-    @endif
-
-    @if(session('success'))
-    <script>
-        Swal.fire({
-            title: "Berhasil!",
-            text: "{{ session('success') }}",
-            icon: "success",
-            confirmButtonColor: "#3085d6"
-        });
-    </script>
-    @endif
-
-<script>
-    function openModal(id) {
-        document.getElementById(`modal-${id}`).classList.remove('hidden');
-    }
-
-    function closeModal(id) {
-        document.getElementById(`modal-${id}`).classList.add('hidden');
-    }
-</script>
 
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Content;
 use Illuminate\Support\Str;
+use App\Models\Activity;
 
 class ContentController extends Controller
 {
