@@ -9,8 +9,10 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\SubmissionController;
-use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Admin\FeatureController;
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\LoginController;
+use App\Http\Controllers\Auth\GoogleController;
 
 // User routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -19,6 +21,32 @@ Route::get('/booking/{slug}', [HomeController::class, 'booking'])->name('booking
 Route::get('/booking/{slug}/{bulan}', [HomeController::class, 'bookingDetail'])->name('booking.detail');
 Route::get('/wisata',[HomeController::class, 'content'])->name('wisata');
 Route::get('/wisata/{slug}',[HomeController::class, 'contentDetail'])->name('wisata.detail');
+
+
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/register', [LoginController::class, 'store'])->name('register.post');
+
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+Route::middleware('auth:web')->group(function () {
+    Route::get('/profil', [HomeController::class, 'profile'])->name('profile');
+});
+
+Route::middleware('auth:web')->group(function () {
+    Route::get('/formulir', [BookingController::class, 'index'])->name('booking.form');
+    Route::post('/formulir', [BookingController::class, 'store'])->name('booking.submit');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/history', [HomeController::class, 'history'])->name('history');
+});
+
+
 
 // Admin routes
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');

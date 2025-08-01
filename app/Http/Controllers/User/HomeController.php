@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Content;
 use App\Models\News;
 use App\Models\Event;
@@ -56,5 +57,21 @@ class HomeController extends Controller
 
         $contents = Content::where('slug', $slug)->firstOrFail();
         return view('user.wisata_detail', compact('contents','slug'));
+    }
+
+    public function history(){
+
+        return view('user.history');
+    }
+
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+
+    public function profile(){
+        $user = Auth::user();
+
+        return view('user.account.profile', compact('user'));
     }
 }

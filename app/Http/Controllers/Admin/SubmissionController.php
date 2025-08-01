@@ -54,7 +54,7 @@ class SubmissionController extends Controller
     public function create()
     {
         $contents = Content::all();
-        return view('admin.submission.create', compact('contents'));
+        return view('user.form', compact('contents'));
     }
     
     public function store(Request $request)
@@ -102,7 +102,7 @@ class SubmissionController extends Controller
 
         Submission::create($data);
 
-        return redirect()->route('submission.index')->with('success', 'Data berhasil disimpan.');
+        return redirect()->route('welcome')->with('success', 'Data berhasil disimpan.');
         } catch (\Exception $e) {
         return back()
             ->withInput()

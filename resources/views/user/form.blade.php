@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+@extends('layouts.info')
 
 @section('content')
 <main class="p-6 bg-gray-100 flex-1 min-h-screen">
