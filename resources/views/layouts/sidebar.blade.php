@@ -7,8 +7,8 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="assets/css/input.css" />
-  <link rel="stylesheet" href="assets/css/output.css">
+  <link rel="stylesheet" href="{{ asset('assets/css/input.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/output.css') }}"> 
   <script src="{{ asset('assets/js/index.js') }}"></script>
 </head>
 <body class="bg-gray-100">

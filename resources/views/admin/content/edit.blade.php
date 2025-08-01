@@ -1,99 +1,218 @@
 @extends('layouts.sidebar')
 
 @section('content')
-<main class="p-6 bg-gray-50 flex-1">
-    <div class="mb-6">
-        <h3 class="text-2xl font-semibold mb-2">Edit Tempat Wisata</h3>
-    </div>
+<div class="max-w-6xl mx-auto mt-10">
+    {{-- Alert --}}
+    @if(session('success'))
+        <div class="mb-4 p-4 bg-green-200 rounded text-green-800">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="mb-4 p-4 bg-red-200 rounded text-red-800">
+            {{ session('error') }}
+        </div>
+    @endif
 
-    <div class="bg-white p-5 rounded-lg shadow max-w-6xl mx-auto">
-        <form action="{{ route('content.update', $content->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+    {{-- FORM EDIT KONTEN --}}
+    <form action="{{ route('content.update', $content->id) }}" method="POST" enctype="multipart/form-data" id="form-content">
+        @csrf
+        @method('PUT')
+        <div class="bg-white p-6 rounded shadow">
+            <h2 class="text-xl font-semibold mb-4">Edit Tempat Wisata</h2>
 
-            {{-- Nama Tempat --}}
-            <div class="mb-4 flex items-center">
-                <label for="name" class="w-1/4 font-medium">Nama Tempat</label>
-                <input type="text" name="name" id="name" class="border px-4 py-2 rounded-lg w-3/4" value="{{ old('name', $content->name) }}" required>
+            <div class="mb-4">
+                <label class="block font-medium">Nama Tempat</label>
+                <input type="text" name="name" value="{{ old('name', $content->name) }}"
+                    class="w-full border px-4 py-2 rounded">
             </div>
 
-            {{-- Deskripsi --}}
-            <div class="mb-4 flex items-start">
-                <label for="description" class="w-1/4 font-medium pt-2">Deskripsi</label>
-                <textarea name="description" id="description" rows="4" class="border px-4 py-2 rounded-lg w-3/4" required>{{ old('description', $content->description) }}</textarea>
+            <div class="mb-4">
+                <label class="block font-medium">Deskripsi</label>
+                <textarea name="description" class="w-full border px-4 py-2 rounded">{{ old('description', $content->description) }}</textarea>
             </div>
 
-            {{-- Harga Tiket --}}
-            <div class="mb-4 flex items-center">
-                <label class="w-1/4 font-medium">Harga Tiket</label>
-                <div class="flex items-center gap-2 w-3/4">
-                    <div class="w-full">
-                        <label for="price_weekday" class="block font-medium mb-1">Weekday</label>
-                        <input type="number" name="price_weekday" id="price_weekday" class="border px-4 py-2 rounded-lg w-full" value="{{ old('price_weekday', $content->price_weekday ?? '') }}" required>
-                    </div>
-                    <div class="text-xl font-semibold text-gray-600 pt-6">/</div>
-                    <div class="w-full">
-                        <label for="price_weekend" class="block font-medium mb-1">Weekend</label>
-                        <input type="number" name="price_weekend" id="price_weekend" class="border px-4 py-2 rounded-lg w-full" value="{{ old('price_weekend', $content->price_weekend ?? '') }}" required>
-                    </div>
+            <div class="flex gap-4 mb-4">
+                <div class="w-1/2">
+                    <label class="block font-medium">Harga Weekday</label>
+                    <input type="text" name="price_weekday" value="{{ old('price_weekday', $content->price_weekday) }}"
+                        class="w-full border px-4 py-2 rounded">
+                </div>
+                <div class="w-1/2">
+                    <label class="block font-medium">Harga Weekend</label>
+                    <input type="text" name="price_weekend" value="{{ old('price_weekend', $content->price_weekend) }}"
+                        class="w-full border px-4 py-2 rounded">
                 </div>
             </div>
 
-            {{-- Jam Operasional --}}
-            <div class="mb-4 flex items-center">
-                <label class="w-1/4 font-medium">Jam Operasional</label>
-                <div class="flex items-center gap-2 w-3/4">
-                    <div class="w-full">
-                        <label for="open_time" class="block font-medium mb-1">Jam Buka</label>
-                        <input type="time" name="open_time" id="open_time" class="border px-4 py-2 rounded-lg w-full" value="{{ old('open_time', \Carbon\Carbon::parse($content->open_time)->format('H:i')) }}">
-                    </div>
-                    <div class="text-xl font-semibold text-gray-600 pt-6">-</div>
-                    <div class="w-full">
-                        <label for="close_time" class="block font-medium mb-1">Jam Tutup</label>
-                        <input type="time" name="close_time" id="close_time" class="border px-4 py-2 rounded-lg w-full" value="{{ old('open_time', \Carbon\Carbon::parse($content->close_time)->format('H:i')) }}">
-                    </div>
+            <div class="flex gap-4 mb-4">
+                <div class="w-1/2">
+                    <label class="block font-medium">Jam Buka</label>
+                    <input type="time" name="open_time"  value="{{ old('open_time', \Carbon\Carbon::parse($content->open_time)->format('H:i')) }}"
+                        class="w-full border px-4 py-2 rounded">
+                </div>
+                <div class="w-1/2">
+                    <label class="block font-medium">Jam Tutup</label>
+                    <input type="time" name="close_time"  value="{{ old('close_time', \Carbon\Carbon::parse($content->close_time)->format('H:i')) }}"
+                        class="w-full border px-4 py-2 rounded">
                 </div>
             </div>
 
-            {{-- Lokasi --}}
-            <div class="mb-4 flex items-center">
-                <label for="location" class="w-1/4 font-medium">Lokasi</label>
-                <input type="text" name="location" id="location" class="border px-4 py-2 rounded-lg w-3/4" value="{{ old('location', $content->location) }}" required>
+            <div class="mb-4">
+                <label class="block font-medium">Lokasi</label>
+                <input type="text" name="location" value="{{ old('location', $content->location) }}"
+                    class="w-full border px-4 py-2 rounded">
             </div>
 
-            {{-- Gambar Lama --}}
-            @if ($content->image)
-            <div class="mb-4 flex items-center">
-                <label class="w-1/4 font-medium">Gambar Saat Ini</label>
-                <div class="w-3/4">
-                    <img src="{{ asset('storage/' . $content->image) }}" alt="Image" class="w-40 h-28 object-cover rounded">
-                </div>
-            </div>
-            @endif
-
-            {{-- Upload Gambar Baru --}}
-            <div class="mb-4 flex items-center">
-                <label for="image" class="w-1/4 font-medium">Ganti Gambar (opsional)</label>
-                <input type="file" name="image" id="image" accept="image/*" class="border px-4 py-2 rounded-lg w-3/4">
+            <div class="mb-4">
+                <label class="block font-medium">Lokasi GMAPS</label>
+                <input type="text" name="location_embed" value="{{ old('location_embed', $content->location_embed) }}"
+                    class="w-full border px-4 py-2 rounded">
             </div>
 
-            {{-- Tombol --}}
-            <div class="flex justify-between mt-6">
-                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md">Perbarui</button>
-                <a href="{{ route('content.index') }}" class="bg-gray-300 hover:bg-gray-400 px-6 py-2 rounded-md">Batal</a>
+            <div class="mb-4">
+                <label class="block font-medium">Gambar</label>
+                <input type="file" name="image" class="w-full border px-4 py-2 rounded">
+                @if($content->image)
+                    <img src="{{ asset('storage/'.$content->image) }}" class="mt-2 w-40">
+                @endif
             </div>
-        </form>
-    </div>
-</main>
 
-@if(session('error'))
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                Simpan Perubahan
+            </button>
+        </div>
+    </form>
+
+    {{-- FORM FITUR --}}
+    <div class="bg-white p-6 rounded-lg shadow max-w-6xl mx-auto mt-6">
+    <h4 class="text-xl font-semibold mb-4">
+        Edit Fasilitas untuk: <span class="font-bold">{{ $content->name }}</span>
+    </h4>
+
+    <form action="{{ route('feature.update') }}" method="POST">
+        @csrf
+        <input type="hidden" name="location" value="{{ $content->id }}">
+
+        {{-- Pricelist --}}
+        <div class="mb-6">
+            <label class="block font-semibold mb-2">Penyewaan</label>
+            <div id="price-list" class="overflow-x-auto">
+                <table class="min-w-full border rounded-lg">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-3 py-2 text-left">Bagian</th>
+                            <th class="px-3 py-2 text-left">Luas</th>
+                            <th class="px-3 py-2 text-left">Harga (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($content->features->where('type', 'price') as $i => $feature)
+                            <tr class="border-b">
+                                <input type="hidden" name="features[{{ $i }}][id]" value="{{ $feature->id }}">
+                                <input type="hidden" name="features[{{ $i }}][type]" value="price">
+                                <td class="px-3 py-2">
+                                    <input type="text" name="features[{{ $i }}][bagian]" value="{{ $feature->bagian }}"
+                                        class="border w-full px-3 py-2 rounded">
+                                </td>
+                                <td class="px-3 py-2">
+                                    <input type="text" name="features[{{ $i }}][luas]" value="{{ $feature->luas }}"
+                                        class="border w-full px-3 py-2 rounded">
+                                </td>
+                                <td class="px-3 py-2 flex items-center gap-2">
+                                    <input type="number" name="features[{{ $i }}][price]" value="{{ $feature->price }}"
+                                        class="border w-full px-3 py-2 rounded">
+                                    <button type="button" onclick="this.closest('tr').remove()" class="bg-red-500 text-white px-2 py-1 rounded">
+                                        Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" onclick="addBagian()" class="mt-3 bg-green-500 text-white px-4 py-2 rounded">
+                Tambah Bagian
+            </button>
+        </div>
+
+        {{-- Fasilitas --}}
+        <div class="mb-6">
+            <label class="block font-semibold mb-2">Fasilitas</label>
+
+            <div id="facility-list" class="space-y-2">
+                {{-- Jika ada input sebelumnya (setelah gagal validasi), tampilkan kembali --}}
+                @if(old('facility_names'))
+                    @foreach(old('facility_names') as $name)
+                        <div class="flex gap-2">
+                            <input type="text" name="facility_names[]" value="{{ $name }}" class="border rounded px-3 py-2 w-full" placeholder="Nama fasilitas" required>
+                            <button type="button" onclick="this.parentElement.remove()" class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
+                        </div>
+                    @endforeach
+                @elseif($content->features->where('type', 'facility')->count())
+                    @foreach($content->features->where('type', 'facility') as $feature)
+                        <div class="flex gap-2">
+                            <input type="text" name="facility_names[]" value="{{ $feature->facility_name }}" class="border rounded px-3 py-2 w-full" placeholder="Nama fasilitas" required>
+                            <button type="button" onclick="this.parentElement.remove()" class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="flex gap-2">
+                        <input type="text" name="facility_names[]" class="border rounded px-3 py-2 w-full" placeholder="Nama fasilitas" required>
+                        <button type="button" onclick="this.parentElement.remove()" class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
+                    </div>
+                @endif
+            </div>
+
+            <button type="button" onclick="addFacilityInput()" class="mt-3 bg-green-500 text-white px-4 py-2 rounded">
+                Tambah Fasilitas
+            </button>
+        </div>
+
+
+        <div class="flex justify-between mt-6">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md">
+                Simpan Fitur
+            </button>
+        </div>
+    </form>
+</div>
+</div>
 <script>
-    Swal.fire({
-        title: "Gagal!",
-        text: "{{ session('error') }}",
-        icon: "error",
-        confirmButtonColor: "#d33"
-    });
+    function addFacilityInput() {
+        const container = document.getElementById('facility-list');
+        const div = document.createElement('div');
+        div.className = 'flex gap-2 mt-2';
+        div.innerHTML = `
+            <input type="text" name="facility_names[]" class="border rounded px-3 py-2 w-full" placeholder="Nama fasilitas" required>
+            <button type="button" onclick="this.parentElement.remove()" class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
+        `;
+        container.appendChild(div);
+    }
+    
+    let priceIndex = {{ $content->features->where('type', 'price')->count() }};
+
+    function addBagian() {
+        const tbody = document.querySelector('#price-list tbody');
+
+        const tr = document.createElement('tr');
+        tr.className = 'border-b';
+        tr.innerHTML = `
+            <input type="hidden" name="features[${priceIndex}][type]" value="price">
+            <td class="px-3 py-2">
+                <input type="text" name="features[${priceIndex}][bagian]" class="border w-full px-3 py-2 rounded" placeholder="ex: Area Parkir" required>
+            </td>
+            <td class="px-3 py-2">
+                <input type="text" name="features[${priceIndex}][luas]" class="border w-full px-3 py-2 rounded" placeholder="ex: 10X10" required>
+            </td>
+            <td class="px-3 py-2 flex items-center gap-2">
+                <input type="number" name="features[${priceIndex}][price]" class="border w-full px-3 py-2 rounded" placeholder="ex: 20000" required>
+                <button type="button" onclick="this.closest('tr').remove()" class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+        priceIndex++;
+    }
 </script>
-@endif
 @endsection

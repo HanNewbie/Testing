@@ -59,14 +59,14 @@
           </div>
           <ul class="p-4 space-y-2">
             <li>
-              <a href="#" class="block p-2 bg-blue-200 rounded">Home</a>
+              <a href="{{ route('home') }}" class="block p-2 bg-blue-200 rounded">Home</a>
             </li>
             <li>
-              <a href="objek_wisata.html" class="block p-2 hover:bg-gray-100">Objek Wisata</a>
+              <a href="{{ route('wisata') }}" class="block p-2 hover:bg-gray-100">Objek Wisata</a>
             </li>
             <li>
               <li>
-                <a href="jadwal_event.html" class="block p-2 hover:bg-gray-100">Jadwal</a>
+                <a href="{{ route('event') }}" class="block p-2 hover:bg-gray-100">Jadwal</a>
               </li>  
             </li>
             <li>
@@ -127,7 +127,7 @@
     </div>
   </footer>
 
-  <script src="../js/index.js"></script>
+  <script src="{{ asset('assets/js/index.js') }}"></script>
 </body>
 
 </html>

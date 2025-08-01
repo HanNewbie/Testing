@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Content;
 use Illuminate\Support\Str;
 use App\Models\Activity;
+use App\Models\ContentFeature;
 
 class ContentController extends Controller
 {
@@ -23,6 +24,48 @@ class ContentController extends Controller
         return view('admin.content.index', compact('contents'));
     }
     
+    // public function create()
+    // {
+    //     return view('admin.content.create');
+    // }
+
+    // public function store(Request $request)
+    // {
+    //     try {
+    //     $data = $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'description' => 'nullable|string',
+    //         'price_weekday' => 'nullable|string',
+    //         'price_weekend' => 'nullable|string',
+    //         'open_time' => 'nullable|date_format:H:i',
+    //         'close_time' => 'nullable|date_format:H:i',
+    //         'location' => 'nullable|string|max:255',
+    //         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    //     ]);
+        
+    //     $data['slug'] = Str::slug($data['name'], '-');
+
+    //     if ($request->hasFile('image')) {
+    //         $file = $request->file('image');
+    //         $imagePath = $file->store('assets/content', 'public'); // simpan ke storage/app/public/content
+    //         $data['image'] = $imagePath;
+    //     }
+
+    //     Content::create($data);
+    //     Activity::create([
+    //         'admin_id' => auth('admin')->id(),
+    //         'description' => 'menambahkan tempat wisata baru.',
+    //     ]);
+
+    //     return redirect()->route('content.index')->with('success', 'Konten berhasil ditambahkan.');
+    //     } catch (\Exception $e) {
+    //     return back()
+    //         ->withInput()
+    //         ->with('error', 'Terjadi kesalahan saat menambahkan konten: ' . $e->getMessage());
+    //     }
+    // }
+
+
     public function create()
     {
         return view('admin.content.create');
@@ -31,41 +74,57 @@ class ContentController extends Controller
     public function store(Request $request)
     {
         try {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price_weekday' => 'nullable|string',
-            'price_weekend' => 'nullable|string',
-            'open_time' => 'nullable|date_format:H:i',
-            'close_time' => 'nullable|date_format:H:i',
-            'location' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
-        
-        $data['slug'] = Str::slug($data['name'], '-');
+            $data = $request->validate([
+                'name'          => 'required|string|max:255',
+                'description'   => 'nullable|string',
+                'price_weekday' => 'nullable|string',
+                'price_weekend' => 'nullable|string',
+                'open_time'     => 'nullable|date_format:H:i',
+                'close_time'    => 'nullable|date_format:H:i',
+                'location'      => 'nullable|string|max:255',
+                'location_embed'=> 'nullable|string',
+                'image'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            ]);
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $imagePath = $file->store('assets/content', 'public'); // simpan ke storage/app/public/content
-            $data['image'] = $imagePath;
-        }
+            $data['slug'] = Str::slug($data['name'], '-');
 
-        Content::create($data);
-        Activity::create([
-            'admin_id' => auth('admin')->id(),
-            'description' => 'menambahkan tempat wisata baru.',
-        ]);
+            if ($request->hasFile('image')) {
+                $data['image'] = $request->file('image')->store('assets/content', 'public');
+            }
 
-        return redirect()->route('content.index')->with('success', 'Konten berhasil ditambahkan.');
-        } catch (\Exception $e) {
-        return back()
-            ->withInput()
-            ->with('error', 'Terjadi kesalahan saat menambahkan konten: ' . $e->getMessage());
+            $content = Content::create($data);
+
+            Activity::create([
+                'admin_id'    => auth('admin')->id(),
+                'description' => 'menambahkan tempat wisata baru.',
+            ]);
+
+            return redirect()->route('content.facilities', ['id' => $content->id])
+            ->with('success', 'Konten berhasil ditambahkan. Silakan tambahkan data fasilitas.');
+
+
+        } catch (\Throwable $e) {
+            return back()->withInput()
+                ->with('error', 'Terjadi kesalahan saat menambahkan konten: '.$e->getMessage());
         }
     }
 
-    public function edit(Content $content)
+    /** ubah "1.000.000" -> 1000000; "" atau null -> null */
+    // private function toInt($value): ?int
+    // {
+    //     if ($value === null || $value === '') return null;
+    //     $digits = preg_replace('/\D+/', '', (string) $value);
+    //     return $digits === '' ? null : (int) $digits;
+    // }
+
+    // public function edit(Content $content)
+    // {
+    //     return view('admin.content.edit', compact('content'));
+    // }
+
+    public function edit($id)
     {
+        $content = Content::with('features')->findOrFail($id);
         return view('admin.content.edit', compact('content'));
     }
 
@@ -81,6 +140,7 @@ class ContentController extends Controller
             'open_time' => 'nullable|date_format:H:i',
             'close_time' => 'nullable|date_format:H:i',
             'location' => 'nullable|string|max:255',
+            'location_embed'=> 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -109,5 +169,12 @@ class ContentController extends Controller
             ->withInput()
             ->with('error', 'Terjadi kesalahan saat mengubah konten: ' . $e->getMessage());
         }
+    }
+
+    public function destroy(Content $content)
+    {
+        $content->delete();
+
+        return redirect()->route('content.index')->with('success', 'Data berhasil dihapus.');
     }
 }

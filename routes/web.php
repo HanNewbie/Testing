@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\SubmissionController;
 use App\Http\Controllers\User\HomeController;
-
+use App\Http\Controllers\Admin\FeatureController;
 
 // User routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -30,7 +30,12 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::resource('user', AccountUserController::class);
     Route::resource('event', EventController::class);
     Route::resource('news', NewsController::class);
+
     Route::resource('content', ContentController::class);
+    Route::post('/features', [FeatureController::class, 'store'])->name('features.store');
+    Route::post('/feature/edit', [FeatureController::class, 'update'])->name('feature.update');
+    Route::get('/content/{id}/facilities', [FeatureController::class, 'index'])->name('content.facilities');
+
     Route::resource('submission', SubmissionController::class)->except(['show']);
     Route::get('submission/approved', [SubmissionController::class, 'approved'])->name('submission.approved.list');
     Route::get('submission/rejected', [SubmissionController::class, 'rejected'])->name('submission.rejected.list');

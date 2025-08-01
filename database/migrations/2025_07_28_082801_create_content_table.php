@@ -21,6 +21,7 @@ return new class extends Migration
             $table->time('open_time')->nullable();
             $table->time('close_time')->nullable();
             $table->string('location')->nullable();
+            $table->text('location_embed')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Event;
 use App\Models\submission;
+use App\Models\ContentFeature;
 
 class Content extends Model
 {
@@ -19,6 +20,7 @@ class Content extends Model
         'open_time',
         'close_time',
         'location',
+        'location_embed',
         'image',
     ];
 
@@ -31,5 +33,13 @@ class Content extends Model
     {
         return $this->hasMany(Submission::class, 'name');
     }
+
+    protected $guarded = [];
+
+    public function features()
+    {
+        return $this->hasMany(ContentFeature::class, 'location');
+    }
+
     
 }

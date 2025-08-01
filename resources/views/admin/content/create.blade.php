@@ -62,6 +62,11 @@
                 <input type="text" name="location" id="location" class="border px-4 py-2 rounded-lg w-3/4" value="{{ old('location') }}" required>
             </div>
 
+            <div class="mb-4 flex items-center">
+                <label for="location_embed" class="w-1/4 font-medium">Lokasi GMAPS</label>
+                <input type="textarea" placeholder='<iframe src="..."></iframe>' name="location_embed" id="location_embed" class="border px-4 py-2 rounded-lg w-3/4" value="{{ old('location_embed') }}" required>
+            </div>
+
             {{-- Upload Gambar --}}
             <div class="mb-4 flex items-center">
                 <label for="image" class="w-1/4 font-medium">Upload Gambar</label>

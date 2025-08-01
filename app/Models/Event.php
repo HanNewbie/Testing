@@ -8,8 +8,7 @@ use App\Models\Content;
 class Event extends Model
 {
     protected $table = 'event';
-
-    
+        
     protected $fillable = [
         'vendor',
         'start_date',
