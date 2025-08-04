@@ -62,17 +62,18 @@
                 <p class="text-gray-500 italic">Peta lokasi belum tersedia.</p>
             @endif
         </div>
-
+        <div class="flex justify-end">
+            <a href="{{ route('fasilitas', ['location' => $contents->location]) }}" class="flex items-center gap-1 bg-blue-200 hover:bg-blue-300 transition px-3 py-1.5 rounded-full shadow text-decoration-none">
+                <span class="text-primary font-semibold text-xs">Info Lebih Lanjut</span>
+                <div class="bg-white w-6 h-6 rounded-full flex items-center justify-center">
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 3L9 7L5 11" stroke="#0C4E98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                </div>
+            </a>
+        </div>
     </div>
 </section>
 @endsection
 
 
-
-{{-- Tombol Booking (jika ada jadwal event) --}}
-        {{-- <div class="flex justify-end">
-            <a href="{{ route('booking', ['slug' => $content->slug]) }}"
-               class="bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-600">
-                Lihat Jadwal Booking
-            </a>
-        </div> --}}

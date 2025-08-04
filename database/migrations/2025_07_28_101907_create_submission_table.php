@@ -10,7 +10,11 @@ return new class extends Migration
     {
         Schema::create('submission', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('namePIC');
+            $table->string('no_hp')->nullable();
             $table->string('vendor');
+            $table->string('address');
             $table->string('location')->references('name')->on('content')->onDelete('cascade');
             $table->date('apply_date');
             $table->date('start_date');

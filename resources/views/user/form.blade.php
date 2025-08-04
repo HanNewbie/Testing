@@ -1,10 +1,11 @@
 @extends('layouts.info')
 
 @section('content')
-<main class="p-6 bg-gray-100 flex-1 min-h-screen">
-    <div class="max-w-3xl mx-auto bg-white rounded shadow p-6">
-        <h3 class="text-2xl font-semibold mb-6">Tambah Submission</h3>
-
+<main class="p-6 bg-white-100 flex-1 min-h-screen">
+    <h1 class="bg-primary mx-auto w-max text-center px-8 py-2 rounded-2xl uppercase text-white font-bold text-base">
+             Formulir Pengajuan Sewa
+         </h1>
+    <div class="max-w-5xl mx-auto bg-white rounded shadow p-6">
         @if ($errors->any())
             <div class="bg-red-100 text-red-700 p-4 mb-4 rounded">
                 <ul class="list-disc pl-5">
@@ -15,13 +16,28 @@
             </div>
         @endif
 
-        <form action="{{ route('submission.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('user.submission.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             {{-- Vendor --}}
             <div class="mb-4">
-                <label for="vendor" class="block font-medium mb-1">Vendor</label>
-                <input type="text" name="vendor" id="vendor" class="w-full border px-4 py-2 rounded" value="{{ old('vendor') }}" required>
+                <label for="namePIC" class="block font-medium mb-1">Nama Pengusul</label>
+                <input type="text" name="namePIC" id="namePIC" class="w-full border px-4 py-2 rounded" value="{{ old('namePIC') }}" placeholder="Masukan Nama Lengkap" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="no_hp" class="block font-medium mb-1">Nomor Handphone Pengusul</label>
+                <input type="text" name="no_hp" id="no_hp" class="w-full border px-4 py-2 rounded" value="{{ old('no_hp') }}" placeholder="Masukan Nomor Handphone Pengusul" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="vendor" class="block font-medium mb-1">Asal Instansi</label>
+                <input type="text" name="vendor" id="vendor" class="w-full border px-4 py-2 rounded" value="{{ old('vendor') }}" placeholder="Masukan Asal Instansi" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="address" class="block font-medium mb-1">Alamat Instansi</label>
+                <input type="text" name="address" id="address" class="w-full border px-4 py-2 rounded" value="{{ old('address') }}" placeholder="Masukan Alamat Instansi" required>
             </div>
 
             <div class="mb-4">
@@ -39,8 +55,8 @@
 
             {{-- Nama Event --}}
             <div class="mb-4">
-                <label for="name_event" class="block font-medium mb-1">Nama Event</label>
-                <input type="text" name="name_event" id="name_event" class="w-full border px-4 py-2 rounded" value="{{ old('name_event') }}" required>
+                <label for="name_event" class="block font-medium mb-1">Nama Kegiatan</label>
+                <input type="text" name="name_event" id="name_event" class="w-full border px-4 py-2 rounded" value="{{ old('name_event') }}" placeholder="Masukan nama kegiatan atau deskripsi singkat kegiatan" required>
             </div>
 
 
@@ -78,12 +94,18 @@
             </div>
 
             <div class="flex justify-between mt-6">
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
-                    Simpan
-                </button>
-                <a href="{{ route('submission.index') }}" class="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded">
-                    Batal
-                </a>
+                @auth
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
+                        Simpan
+                    </button>
+                    <a href="{{ route('home') }}" class="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded">
+                        Batal
+                    </a>
+                @else
+                    <div class="text-red-600 font-semibold">
+                        Silakan <a href="{{ route('login') }}" class="underline text-blue-600 hover:text-blue-800">login</a> untuk mengisi form ini.
+                    </div>
+                @endauth
             </div>
         </form>
     </div>
@@ -95,6 +117,17 @@
         title: "Gagal!",
         text: "{{ session('error') }}",
         icon: "error",
+        confirmButtonColor: "#d33"
+    });
+</script>
+@endif
+
+@if(session('success'))
+<script>
+    Swal.fire({
+        title: "Berhasil!",
+        text: "{{ session('success') }}",
+        icon: "success",
         confirmButtonColor: "#d33"
     });
 </script>

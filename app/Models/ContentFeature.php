@@ -9,7 +9,6 @@ class ContentFeature  extends Model
     protected $table = 'content_features';
 
     protected $fillable = [
-        'location', 
         'type',
         'bagian', 
         'luas', 

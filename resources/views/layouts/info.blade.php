@@ -69,8 +69,8 @@
 
           @auth
           <li class="group">
-            <a href="{{ route('history') }}"
-               class="mx-4 flex py-2 text-base {{ request()->routeIs('history') ? 'text-primary' : 'text-gray-800' }} hover:text-primary">
+            <a href="{{ route('user.history') }}"
+               class="mx-4 flex py-2 text-base {{ request()->routeIs('user.history') ? 'text-primary' : 'text-gray-800' }} hover:text-primary">
                Riwayat Pengajuan
             </a>
           </li>

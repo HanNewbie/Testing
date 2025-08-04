@@ -21,10 +21,11 @@ Route::get('/booking/{slug}', [HomeController::class, 'booking'])->name('booking
 Route::get('/booking/{slug}/{bulan}', [HomeController::class, 'bookingDetail'])->name('booking.detail');
 Route::get('/wisata',[HomeController::class, 'content'])->name('wisata');
 Route::get('/wisata/{slug}',[HomeController::class, 'contentDetail'])->name('wisata.detail');
-
+Route::get('/fasilitas/{location}',[HomeController::class, 'facility'])->name('fasilitas');
+Route::get('/penyewaan',[HomeController::class, 'createSubmission'])->name('submission');
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');    
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/register', [LoginController::class, 'register'])->name('register');
@@ -33,17 +34,10 @@ Route::post('/register', [LoginController::class, 'store'])->name('register.post
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-Route::middleware('auth:web')->group(function () {
-    Route::get('/profil', [HomeController::class, 'profile'])->name('profile');
-});
-
-Route::middleware('auth:web')->group(function () {
-    Route::get('/formulir', [BookingController::class, 'index'])->name('booking.form');
-    Route::post('/formulir', [BookingController::class, 'store'])->name('booking.submit');
-});
-
 Route::middleware(['auth'])->group(function () {
-    Route::get('/history', [HomeController::class, 'history'])->name('history');
+    Route::get('/history', [HomeController::class, 'history'])->name('user.history');
+    Route::get('/profil', [HomeController::class, 'profile'])->name('profile');
+    Route::post('/penyewaan',[HomeController::class, 'storeSubmission'])->name('user.submission.store');
 });
 
 
@@ -64,7 +58,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('/feature/edit', [FeatureController::class, 'update'])->name('feature.update');
     Route::get('/content/{id}/facilities', [FeatureController::class, 'index'])->name('content.facilities');
 
-    Route::resource('submission', SubmissionController::class)->except(['show']);
+    Route::get('submission', [SubmissionController::class, 'index'])->name('submission.index');
     Route::get('submission/approved', [SubmissionController::class, 'approved'])->name('submission.approved.list');
     Route::get('submission/rejected', [SubmissionController::class, 'rejected'])->name('submission.rejected.list');
     // PUT untuk menyetujui/menolak 

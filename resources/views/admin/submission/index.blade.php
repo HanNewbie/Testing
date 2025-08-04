@@ -16,12 +16,6 @@
   </div>
 
   <div class="bg-white shadow-md rounded-lg p-4">
-    <div class="mb-4 text-right">
-      <a href="{{ route('submission.create') }}" class="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-lg">
-        Tambah
-      </a>
-    </div>
-
     <table class="w-full border-collapse">
       <thead>
         <tr class="bg-blue-300 text-white">

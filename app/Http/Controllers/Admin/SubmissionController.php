@@ -50,66 +50,6 @@ class SubmissionController extends Controller
         return view('admin.submission.rejected', compact('submissions'));
     }
 
-
-    public function create()
-    {
-        $contents = Content::all();
-        return view('user.form', compact('contents'));
-    }
-    
-    public function store(Request $request)
-    {
-        try {
-         $data = $request->validate([
-        'vendor' => 'required|string|max:255',
-        'location'  => 'required|exists:content,name',
-        'start_date' => 'required|date',
-        'end_date' => 'required|date',
-        'name_event' => 'required|string|max:255',
-        'file' => 'file|mimes:pdf',
-        'ktp' => 'required|file|mimes:pdf',
-        'appl_letter' => 'file|mimes:pdf',
-        'actv_letter' => 'file|mimes:pdf',
-        ]);
-
-        $content = Content::where('name', $data['location'])->firstOrFail();
-
-        $data['status'] = 'pending';
-        $data['apply_date'] = Carbon::now()->format('Y-m-d H:i');
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filePath = $file->store('assets/rundowns', 'public');
-            $data['file'] = $filePath;
-        }
-        if ($request->hasFile('ktp')) {
-            $ktpFile = $request->file('ktp');
-            $ktpPath = $ktpFile->store('assets/ktp', 'public');
-            $data['ktp'] = $ktpPath;
-        }
-        if ($request->hasFile('appl_letter')) {
-            $applLetterFile = $request->file('appl_letter');
-            $applLetterPath = $applLetterFile->store('assets/appl_letters', 'public');
-            $data['appl_letter'] = $applLetterPath;
-        }
-        if ($request->hasFile('actv_letter')) {
-            $actvLetterFile = $request->file('actv_letter');
-            $actvLetterPath = $actvLetterFile->store('assets/actv_letters', 'public');
-            $data['actv_letter'] = $actvLetterPath;
-        }
-
-        $data['notes'] = $request->input('notes', null);
-
-        Submission::create($data);
-
-        return redirect()->route('welcome')->with('success', 'Data berhasil disimpan.');
-        } catch (\Exception $e) {
-        return back()
-            ->withInput()
-            ->with('error', 'Terjadi kesalahan saat mengubah konten: ' . $e->getMessage());
-        }
-    }
-
     public function approve($id)
     {
         $submission = Submission::findOrFail($id);

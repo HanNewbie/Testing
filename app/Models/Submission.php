@@ -10,6 +10,10 @@ class Submission extends Model
     protected $table = 'submission';
 
     protected $fillable = [
+        'user_id',
+        'namePIC',
+        'no_hp',
+        'address',
         'vendor',
         'location',
         'apply_date',

@@ -20,7 +20,7 @@ class Event extends Model
 
     public function content()
     {
-        return $this->belongsTo(Content::class, 'name');
+        return $this->belongsTo(Content::class, 'location');
     }
 
 }

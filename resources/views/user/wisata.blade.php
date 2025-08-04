@@ -23,6 +23,7 @@
             Lihat Detail
           </a>
         </div>
+        
       </div>
     </div>
       @empty
