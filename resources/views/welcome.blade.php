@@ -39,14 +39,11 @@
     </p>
 
     <ul class="list-disc list-inside space-y-1">
-        <li>Menara Teratai</li>
-        <li>Taman Maskemambang</li>
-        <li>Taman Botani</li>
-        <li>Foodcourt Madhang Maning Park</li>
-        <li>Lokawisata Baturraden</li>
-        <li>Bukit Bintang</li>
-        <li>Indraprana</li>
+         @foreach($contents as $content)
+        <li>{{ $content->name }}</li>
+    @endforeach
     </ul>
+    
     <div class="mt-6 overflow-x-auto whitespace-nowrap">
       <div class="inline-flex gap-4 px-2">
         @forelse ($contents as $item)

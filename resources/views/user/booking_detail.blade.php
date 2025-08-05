@@ -32,6 +32,8 @@
                                 Lihat Rundown
                             </a>
                         </div>
+                        @else
+                            <p class="text-sm italic text-gray-500">Rundown tidak tersedia.</p>
                     @endif
                 </div>
             @empty

@@ -33,9 +33,8 @@
 
     <div class="grid grid-cols-7 text-center text-sm font-medium text-gray-600 gap-y-2">
         {{-- Header hari --}}
-        <div>S</div><div>S</div><div>S</div><div>R</div><div>K</div><div>J</div><div>S</div>
+        <div>S</div><div>S</div><div>R</div><div>K</div><div>J</div><div>S</div><div>M</div>
 
-        {{-- Kosongkan sebelum tanggal 1 agar jatuh di hari yang benar --}}
         @for ($i = 1; $i < $firstDayOfWeek; $i++)
         <div></div>
         @endfor
@@ -52,7 +51,6 @@
         @endfor
     </div>
     </div>
-
 
     {{-- Aktivitas Terbaru --}}
     <div class="bg-sky-600 p-4 rounded-xl shadow text-white h-[250px] overflow-hidden">

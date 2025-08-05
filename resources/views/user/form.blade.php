@@ -79,7 +79,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="ktp" class="block font-medium mb-1">KTP</label>
+                <label for="ktp" class="block font-medium mb-1">KTP *</label>
                 <input type="file" name="ktp" id="ktp" accept=".pdf" class="w-full border px-4 py-2 rounded" required>
             </div>
 
@@ -117,17 +117,6 @@
         title: "Gagal!",
         text: "{{ session('error') }}",
         icon: "error",
-        confirmButtonColor: "#d33"
-    });
-</script>
-@endif
-
-@if(session('success'))
-<script>
-    Swal.fire({
-        title: "Berhasil!",
-        text: "{{ session('success') }}",
-        icon: "success",
         confirmButtonColor: "#d33"
     });
 </script>

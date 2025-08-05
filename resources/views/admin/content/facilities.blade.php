@@ -61,7 +61,6 @@
               <thead>
                 <tr class="bg-gray-100">
                   <th class="px-3 py-2 text-left">Nama Fasilitas</th>
-                  <th class="px-3 py-2 text-left">Icon (opsional)</th>
                   <th class="px-3 py-2"></th>
                 </tr>
               </thead>
@@ -70,9 +69,6 @@
                   <td class="px-3 py-2">
                     <input type="text" name="features[100][facility_name]" class="border w-full px-3 py-2 rounded" placeholder="Misal: Area Parkir">
                     <input type="hidden" name="features[100][type]" value="facility">
-                  </td>
-                  <td class="px-3 py-2">
-                    <input type="text" name="features[100][icon]" class="border w-full px-3 py-2 rounded" placeholder="ex: fa-car">
                   </td>
                   <td class="px-3 py-2 text-right">
                     <button type="button" class="remove-facility-row text-red-600 hover:underline" disabled>Hapus</button>
@@ -131,9 +127,6 @@
           <td class="px-3 py-2">
             <input type="text" name="features[${i}][facility_name]" class="border w-full px-3 py-2 rounded" placeholder="Misal: Toilet Umum">
             <input type="hidden" name="features[${i}][type]" value="facility">
-          </td>
-          <td class="px-3 py-2">
-            <input type="text" name="features[${i}][icon]" class="border w-full px-3 py-2 rounded" placeholder="fa-icon">
           </td>
           <td class="px-3 py-2 text-right">
             <button type="button" class="remove-row text-red-600 hover:underline">Hapus</button>

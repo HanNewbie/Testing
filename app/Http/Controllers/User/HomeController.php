@@ -74,45 +74,21 @@ class HomeController extends Controller
     {
         $monthNumber = \Carbon\Carbon::parse("1 $bulan")->month;
 
-        // Ambil data content berdasarkan slug
         $content = Content::where('slug', $slug)->firstOrFail();
 
-        // Event dari lokasi tersebut
         $events = Event::with('content')
             ->where('location', $content->name)
             ->whereMonth('start_date', $monthNumber)
             ->orderBy('start_date')
-            ->get()
-            ->map(function ($item) {
-                return (object)[
-                    'source' => 'event',
-                    'name_event' => $item->name_event,
-                    'start_date' => $item->start_date,
-                    'end_date' => $item->end_date,
-                    'vendor' => $item->vendor,
-                    'file' => $item->file,
-                ];
-            });
+            ->get();
 
-        // Submission yang disetujui dan lokasi cocok
         $submissions = Submission::where('status', 'approved')
             ->where('location', $content->name)
             ->whereMonth('start_date', $monthNumber)
             ->orderBy('start_date')
-            ->get()
-            ->map(function ($item) {
-                return (object)[
-                    'source' => 'submission',
-                    'name_event' => $item->name_event,
-                    'start_date' => $item->start_date,
-                    'end_date' => $item->end_date,
-                    'vendor' => $item->vendor,
-                    'file' => $item->actv_letter,
-                ];
-            });
+            ->get();
 
-        // Gabungkan dan urutkan berdasarkan tanggal mulai
-        $merged = $events->merge($submissions)->sortBy('start_date');
+        $merged = collect($events)->merge($submissions)->sortBy('start_date')->values();
 
         return view('user.booking_detail', [
             'events' => $merged,
@@ -120,8 +96,6 @@ class HomeController extends Controller
             'bulan' => $bulan,
         ]);
     }
-
-
 
     public function content(){
 

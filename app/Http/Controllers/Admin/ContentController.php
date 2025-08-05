@@ -83,8 +83,13 @@ class ContentController extends Controller
                 'close_time'    => 'nullable|date_format:H:i',
                 'location'      => 'nullable|string|max:255',
                 'location_embed'=> 'nullable|string',
-                'image'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'image'         => 'nullable|image|mimes:jpg,jpeg,png|max:5048',
             ]);
+
+            $existing = Content::where('name', $data['name'])->first();
+            if ($existing) {
+                return back()->with('error', 'Nama '. $data['name'] . ' sudah digunakan.');
+            }
 
             $data['slug'] = Str::slug($data['name'], '-');
 
@@ -109,19 +114,6 @@ class ContentController extends Controller
         }
     }
 
-    /** ubah "1.000.000" -> 1000000; "" atau null -> null */
-    // private function toInt($value): ?int
-    // {
-    //     if ($value === null || $value === '') return null;
-    //     $digits = preg_replace('/\D+/', '', (string) $value);
-    //     return $digits === '' ? null : (int) $digits;
-    // }
-
-    // public function edit(Content $content)
-    // {
-    //     return view('admin.content.edit', compact('content'));
-    // }
-
     public function edit($id)
     {
         $content = Content::with('features')->findOrFail($id);
@@ -141,15 +133,19 @@ class ContentController extends Controller
             'close_time' => 'nullable|date_format:H:i',
             'location' => 'nullable|string|max:255',
             'location_embed'=> 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:5048',
         ]);
 
+        if (isset($data['name']) && $data['name'] !== $content->name) {
+            $existing = Content::where('name', $data['name'])->first();
+            if ($existing) {
+                return back()->with('error', 'Nama ' . $data['name'] . ' sudah digunakan.');
+            }
+        }
 
         if (!empty($data['name'])) {
             $data['slug'] = Str::slug($data['name'], '-');
         }
-
-        $data['slug'] = Str::slug($data['name'], '-');
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
