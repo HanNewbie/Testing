@@ -23,48 +23,6 @@ class ContentController extends Controller
 
         return view('admin.content.index', compact('contents'));
     }
-    
-    // public function create()
-    // {
-    //     return view('admin.content.create');
-    // }
-
-    // public function store(Request $request)
-    // {
-    //     try {
-    //     $data = $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'description' => 'nullable|string',
-    //         'price_weekday' => 'nullable|string',
-    //         'price_weekend' => 'nullable|string',
-    //         'open_time' => 'nullable|date_format:H:i',
-    //         'close_time' => 'nullable|date_format:H:i',
-    //         'location' => 'nullable|string|max:255',
-    //         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-    //     ]);
-        
-    //     $data['slug'] = Str::slug($data['name'], '-');
-
-    //     if ($request->hasFile('image')) {
-    //         $file = $request->file('image');
-    //         $imagePath = $file->store('assets/content', 'public'); // simpan ke storage/app/public/content
-    //         $data['image'] = $imagePath;
-    //     }
-
-    //     Content::create($data);
-    //     Activity::create([
-    //         'admin_id' => auth('admin')->id(),
-    //         'description' => 'menambahkan tempat wisata baru.',
-    //     ]);
-
-    //     return redirect()->route('content.index')->with('success', 'Konten berhasil ditambahkan.');
-    //     } catch (\Exception $e) {
-    //     return back()
-    //         ->withInput()
-    //         ->with('error', 'Terjadi kesalahan saat menambahkan konten: ' . $e->getMessage());
-    //     }
-    // }
-
 
     public function create()
     {

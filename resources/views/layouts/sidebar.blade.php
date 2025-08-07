@@ -17,14 +17,17 @@
   <div class="flex flex-col min-h-screen">
     <!-- Header -->
     <header class="bg-white shadow-md p-4 flex justify-between items-center">
-      <div class="flex items-center">
-        <img src="{{ asset('assets/img/logo blud.png') }}" alt="Logo" class="h-10 mr-2">
-      </div>
-      <div class="flex items-center">
-        <span class="mr-4 font-medium text-gray-700">{{ auth()->user()->username }}</span>
-        <img src="{{ auth()->user()->photo }}" alt="Profile" class="h-10 w-10 rounded-full border border-gray-300">
-      </div>
-    </header>
+    <div class="flex items-center gap-2">
+      <img src="{{ asset('assets/img/logo blud.png') }}" alt="BLUD" class="h-10">
+      <img src="{{ asset('assets/img/telu.png') }}" alt="Telkom" class="h-12">
+    </div>
+
+    <div class="flex items-center">
+      <span class="mr-4 font-medium text-gray-700">{{ auth()->user()->username }}</span>
+      <img src="{{ auth()->user()->photo }}" alt="Profile" class="h-10 w-10 rounded-full border border-gray-300">
+    </div>
+  </header>
+
 
     <div class="flex flex-1">
 

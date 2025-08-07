@@ -28,6 +28,11 @@
                 <textarea name="content" id="content" rows="6" class="w-3/4 border px-4 py-2 rounded-lg" required></textarea>
             </div>
 
+            <div class="mb-4 flex items-center">
+                <label for="source" class="w-1/4 font-medium">Sumber Berita</label>
+                <input type="text" name="source" id="source" class="w-3/4 border px-4 py-2 rounded-lg" required>
+            </div>
+
             <div class="mt-6 flex justify-between">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md">Simpan</button>
                 <a href="{{ route('news.index') }}" class="bg-gray-300 hover:bg-gray-400 px-6 py-2 rounded-md">Kembali</a>

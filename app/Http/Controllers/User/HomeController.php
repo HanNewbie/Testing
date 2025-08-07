@@ -111,8 +111,7 @@ class HomeController extends Controller
 
     public function history(){
 
-        $submissions = Submission::orderBy('apply_date', 'desc')->orderBy('id', 'desc')->get();
-
+        $submissions = Submission::where('user_id', auth()->id())->orderBy('apply_date', 'desc')->orderBy('id', 'desc')->get();
         return view('user.history', compact('submissions'));
     }
 

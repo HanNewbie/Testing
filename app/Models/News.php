@@ -13,6 +13,7 @@ class News extends Model
         'content',
         'upload_time',
         'image',
+        'source',
     ];
 
 }

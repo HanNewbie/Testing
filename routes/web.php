@@ -41,10 +41,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-
 // Admin routes
-Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login']);
+Route::get('/login/admin', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/login/admin', [AdminAuthController::class, 'login']);
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('/logout', function () {Auth::logout();return redirect('/admin/login');})->name('admin.logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');

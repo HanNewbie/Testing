@@ -65,7 +65,7 @@
                                 <!-- Modal -->
                                 <div id="modal-{{ $content->id }}" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
                                     <div class="bg-white rounded-lg shadow-lg max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
-                                        <button onclick="closeModal({{ $content->id }})" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                                        <button onclick="closeModal({{ $content->id }})" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl">&times;</button>
                                         
                                         @if ($content->image)
                                             <img src="{{ asset('storage/' . $content->image) }}" alt="image" class="w-60 h-40 object-cover mx-auto mb-4 rounded">
@@ -172,6 +172,21 @@
         function closeModal(id) {
             document.getElementById(`modal-${id}`).classList.add('hidden');
         }
+
+        function closeModal(id) {
+            document.getElementById(`modal-${id}`).classList.add('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[id^="modal-"]').forEach(modal => {
+                modal.addEventListener('click', function (e) {
+                    // Jika klik di luar konten modal (div dengan class bg-white)
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            });
+        });
     </script>
 
 @endsection

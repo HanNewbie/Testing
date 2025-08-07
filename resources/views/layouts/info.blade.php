@@ -112,14 +112,46 @@
             <a href="{{ route('home') }}" class="block p-2 {{ request()->routeIs('home') ? 'bg-blue-200' : 'hover:bg-gray-100' }} rounded">Home</a>
           </li>
           <li>
-            <a href="{{ route('wisata') }}" class="block p-2 hover:bg-gray-100">Objek Wisata</a>
+            <a href="{{ route('wisata') }}" class="block p-2 {{ request()->routeIs('wisata') ? 'bg-blue-200' : 'hover:bg-gray-100' }} rounded">Objek Wisata</a>
           </li>
           <li>
-            <a href="{{ route('event') }}" class="block p-2 hover:bg-gray-100">Jadwal</a>
+            <a href="{{ route('event') }}" class="block p-2 {{ request()->routeIs('event') ? 'bg-blue-200' : 'hover:bg-gray-100' }} rounded">Jadwal</a>
           </li>
-          <li>
-            <a href="{{ route('login') }}" class="block p-2 hover:bg-gray-100">Masuk/Daftar</a>
+          @guest
+          <li class="group">
+            <a href="{{ route('login') }}"
+              class="mx-4 flex items-center justify-center py-2 px-4 text-base font-bold text-blue-400 border border-blue-400 rounded-md hover:bg-blue-400 hover:text-white transition">
+              Masuk/Daftar
+            </a>
           </li>
+          @endguest
+
+          @auth
+          <li class="group">
+            <a href="{{ route('user.history') }}"
+               class="block p-2 {{ request()->routeIs('user.history') ? 'bg-blue-200' : 'hover:bg-gray-100' }} rounded">
+               Riwayat Pengajuan
+            </a>
+          </li>
+
+          <li class="relative">
+            <a href="{{ route('profile') }}"
+               class="block p-2 {{ request()->routeIs('profile') ? 'bg-blue-200' : 'hover:bg-gray-100' }} rounded">
+               Profile
+            </a>
+          </li>
+
+          <li class="relative">
+              <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="button" id="btn-logout"
+                        class="block p-2 text-red-600 hover:bg-gray-100">
+                        Logout
+                </button>
+              </form>
+          </li>
+
+          @endauth
         </ul>
       </div>
     </div>
@@ -134,8 +166,8 @@
 <footer>
     <div class="bg-slate-100 py-4 px-8 lg:flex lg:justify-around">
       <div class="flex items-center space-x-4">
-          <img src="{{ asset('assets/svg/logo.svg') }}" alt="BLUD" class="h-14">
-          <img src="{{ asset('assets/img/telu.png') }}" alt="Telkom" class="h-16">
+        <img src="{{ asset('assets/svg/logo.svg') }}" alt="BLUD" class="h-16 sm:h-20 object-contain">
+        <img src="{{ asset('assets/img/telu.png') }}" alt="Telkom" class="h-14 sm:h-20 object-contain">
       </div>
       <div class="text-primary py-4 flex justify-between flex-wrap gap-4 lg:gap-10">
         <div class="flex flex-col gap-2">
@@ -149,22 +181,30 @@
         <div class="flex flex-col gap-2">
           <h2 class="font-bold text-xl">Alamat</h2>
           <div class="flex items-start gap-2">
-            <img class="text-primary" src="{{ asset('assets/svg/location.svg') }}" alt="" />
-            <p class="font-semibold text-xs text-justify max-w-[150px]">
+            <img class="text-primary" src="{{ asset('assets/svg/location.svg') }}" alt="Location" />
+            <a
+              href="https://www.google.com/maps?q=Kantor+BLUD+Pariwisata+Baturraden+Glempang,+Bancarkembar,+Purwokerto+Utara,+Banyumas,+53121"
+              target="_blank"
+              class="font-semibold text-xs text-justify max-w-[150px] text-primary hover:underline"
+            >
               Kantor BLUD Pariwisata Baturraden Glempang, Bancarkembar,
               Purwokerto Utara, Banyumas, 53121
-            </p>
+            </a>
           </div>
         </div>
         <div class="flex flex-col gap-2">
           <h2 class="font-bold text-xl">Social Media</h2>
           <div class="flex items-center gap-2">
-            <img class="text-primary" src="{{ asset('assets/svg/wa.svg') }}" alt="" />
-            <p class="font-semibold text-xs">0867-0987-9987</p>
+            <img class="text-primary" src="{{ asset('assets/svg/wa.svg') }}" alt="WhatsApp" />
+            <a href="https://wa.me/6281228289422" target="_blank" class="font-semibold text-xs text-primary hover:underline">
+              0812-2828-9422
+            </a>
           </div>
           <div class="flex items-center gap-2">
-            <img class="text-primary" src="{{ asset('assets/svg/instagram.svg') }}" alt="" />
-            <p class="font-semibold text-xs">BLUD Pariwisata</p>
+            <img class="text-primary" src="{{ asset('assets/svg/instagram.svg') }}" alt="Instagram" />
+            <a href="https://instagram.com/bludpariwisata" target="_blank" class="font-semibold text-xs text-primary hover:underline">
+              BLUD Pariwisata
+            </a>
           </div>
         </div>
       </div>
@@ -200,6 +240,22 @@
       });
     }
   });
+
+  document.getElementById('btn-logout').addEventListener('click', function () {
+          Swal.fire({
+            title: 'Keluar dari sesi?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, logout',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            confirmButtonColor: '#ef4444' // opsional
+          }).then((result) => {
+            if (result.isConfirmed) {
+              document.getElementById('logout-form').submit();
+            }
+          });
+        });
 </script>
 
 

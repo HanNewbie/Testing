@@ -60,13 +60,22 @@
                                 <!-- Modal -->
                                 <div id="modal-{{ $newsItem->id }}" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
                                     <div class="bg-white rounded-lg shadow-lg max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
-                                        <button onclick="closeModal({{ $newsItem->id }})" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-                                        <img src="{{ asset('storage/' . $newsItem->image) }}" alt="image" class="w-45 h-45 mx-auto">
-                                        <h2 class="text-xl font-semibold mb-4">{{ $newsItem->title }}</h2>
+                                        <button onclick="closeModal({{ $newsItem->id }})" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-5xl">&times;</button>
+                                        @if ($newsItem->image)
+                                            <img src="{{ asset('storage/' . $newsItem->image) }}" alt="image" class="w-60 h-40 object-cover mx-auto mb-4 rounded">
+                                        @endif                                        <h2 class="text-xl font-semibold mb-4">{{ $newsItem->title }}</h2>
                                         <p class="text-gray-700 text-sm mb-4">
                                             <strong>Upload:</strong> {{ \Carbon\Carbon::parse($newsItem->upload_time)->format('d/m/Y - H:i') }}
                                         </p>
-                                        <div class="text-gray-800">
+                                        @if ($newsItem->source)
+                                            <p class="text-gray-700 text-sm mb-4">
+                                                <strong>Sumber:</strong>
+                                                <a href="{{ $newsItem->source }}" target="_blank" class="text-blue-600 hover:underline">
+                                                    {{ $newsItem->source }}
+                                                </a>
+                                            </p>
+                                        @endif
+                                        <div class="text-gray-800 text-justify leading-relaxed border-t pt-4">
                                             {!! nl2br(e($newsItem->content)) !!}
                                         </div>
                                     </div>
@@ -158,6 +167,17 @@
         function closeModal(id) {
             document.getElementById(`modal-${id}`).classList.add('hidden');
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[id^="modal-"]').forEach(modal => {
+                modal.addEventListener('click', function (e) {
+                    // Jika klik di luar konten modal (div dengan class bg-white)
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            });
+        });
     </script>
 
 

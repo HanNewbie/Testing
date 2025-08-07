@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div class="p-6 max-w-7xl mx-auto text-justify leading-relaxed">
+<div class="bg-white rounded-xl p-6 shadow text-justify text-sm md:w-[80%] md:mx-auto">
     <p class="mb-4">
         <strong>Badan Layanan Umum Daerah (BLUD) Lokawisata Baturraden</strong><br />
         BLUD UPT Lokawisata Baturraden merupakan Unit Pelaksana Teknis (UPT) di bawah 
@@ -59,32 +59,39 @@
     </div>
 </div>
 
-<section class="py-6 px-3">
+<section class="py-6 px-4 sm:px-6 lg:px-8">
   <div>
     <h1 class="bg-primary mx-auto w-max text-center px-8 py-2 rounded-2xl uppercase text-white font-bold text-base">
       Kabar Banyumas
     </h1>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
       @forelse ($news as $item)
-        <div class="card border rounded-lg shadow-md overflow-hidden">
+        <a 
+          href="{{ $item->source }}" 
+          target="_blank"
+          class="border rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 bg-white flex flex-col"
+        >
           <img 
-            class="w-full h-[200px] lg:h-[180px] object-cover" 
+            class="w-full h-48 md:h-40 object-cover" 
             src="{{ asset('storage/' . $item->image) }}" 
             alt="{{ $item->title }}" 
           />
-          <div class="p-5 flex flex-col gap-4">
-            <h2 class="font-bold text-lg">{{ $item->title }}</h2>
-            <h3 class="font-semibold text-sm text-gray-600">
+          <div class="p-4 flex flex-col gap-2 flex-grow">
+            <h2 class="font-bold text-base md:text-lg">{{ $item->title }}</h2>
+            <h3 class="text-sm text-gray-500">
               {{ \Carbon\Carbon::parse($item->published_at)->translatedFormat('l, d F Y H:i') }} WIB
             </h3>
-            <p class="text-justify pt-2 text-base">
-              {{ $item->content}}
+            <p class="text-justify text-sm text-gray-700">
+              {{ $item->content }}
             </p>
           </div>
-        </div>
+        </a>
       @empty
-        <p class="text-center text-gray-500 mt-6 w-full col-span-4">Belum ada berita tersedia.</p>
+        <p class="text-center text-gray-500 mt-6 w-full col-span-full">Belum ada berita tersedia.</p>
       @endforelse
+    </div>
   </div>
 </section>
+
+
 @endsection

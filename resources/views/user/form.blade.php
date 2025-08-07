@@ -92,6 +92,9 @@
                 <label for="actv_letter" class="block font-medium mb-1">Surat Kegiatan</label>
                 <input type="file" name="actv_letter" id="actv_letter" accept=".pdf" class="w-full border px-4 py-2 rounded" >
             </div>
+            <p class="text-sm text-red-600 px-4 py-2 rounded-lg mt-2">
+                ⚠️ Dokumen yang diunggah harus berformat <strong>PDF</strong>.
+            </p>
 
             <div class="flex justify-between mt-6">
                 @auth

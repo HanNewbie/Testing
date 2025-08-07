@@ -35,6 +35,11 @@
                 <textarea name="content" id="content" rows="6" class="border px-4 py-2 rounded-lg w-full" required>{{ old('content', $news->content) }}</textarea>
             </div>
 
+            <div class="mb-4">
+                <label for="source" class="font-medium block mb-1">Sumber Berita</label>
+                <input name="source" id="source" rows="6" class="border px-4 py-2 rounded-lg w-full" value="{{ old('source', $news->source) }}" required>
+            </div>
+
             <div class="mt-6 flex justify-between">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md">Update</button>
                 <a href="{{ route('news.index') }}" class="bg-gray-300 hover:bg-gray-400 px-6 py-2 rounded-md">Kembali</a>

@@ -35,7 +35,7 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            
+            'source' => 'required|string',
         ]);
 
         $data['upload_time'] = Carbon::now()->format('Y-m-d H:i');
@@ -69,6 +69,7 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'source' => 'required|string',
         ]);
 
         $data['upload_time'] = Carbon::now()->format('Y-m-d H:i');
