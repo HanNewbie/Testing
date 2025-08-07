@@ -122,7 +122,7 @@
   <div class="flex justify-center mt-10">
       <a href="{{ route('submission') }}">
         <p class="bg-primary text-white px-6 py-2 rounded-full shadow hover:bg-blue-600 transition">
-          Ajukan Pengajuan Lagi
+          Buat Pengajuan Lagi
         </p>
       </a>
     </div>
